@@ -13,8 +13,10 @@ typedef struct desc_lista{
 }LFilmes;
 
 LFilmes * cria();
+Filme * busca(LFilmes *l, char *titulo, int ano);
 Filme * busca(LFilmes *l, Filme *f);
 LFilmes * insere(LFilmes *l, Filme *f);
+LFilmes * retira(LFilmes *l, char *titulo, int ano);
 LFilmes * retira(LFilmes *l, Filme *f);
 void imprime(LFilmes *l);
 void libera(LFilmes *l);

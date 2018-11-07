@@ -18,6 +18,16 @@ int compara_filmes(Filme *a, Filme *b){
     return 1;
 }
 
+Filme * busca(LFilmes *l, char *titulo, int ano){
+    if(l.total == 0) return NULL;
+    NFilme * aux = l.prim;
+    while(aux && ( (aux->filme->ano!=ano) ||
+            (strcmp(aux->filme->titulo, titulo)!=0) ))
+        aux = aux->prox;
+    if(!aux) return NULL;
+    return aux->filme;
+}
+
 Filme * busca(LFilmes *l, Filme *f){
     if(l.total == 0) return NULL;
     NFilme * aux = l.prim;
@@ -56,6 +66,28 @@ LFilmes * insere(LFilmes *l, Filme *f){
         novo->prox = aux;
     }
     l.total++;
+    return l;
+}
+
+LFilmes * retira(LFilmes *l, char *titulo, int ano){
+    NFilme *aux = l.prim;
+    while(aux && ( (aux->filme->ano!=ano) ||
+            (strcmp(aux->filme->titulo, titulo)!=0) ))
+        aux = aux->prox;
+    if(aux){
+        if(aux->ant)
+            aux->ant->prox = aux->prox;
+        else
+            l.prim = aux->prox;
+        if(aux->prox)
+            aux->prox->ant = aux->ant;
+        else
+            l.ult = aux->ant;
+        aux->prox = NULL;
+        aux->ant = NULL;
+        l.total--;
+        free(aux);
+    }
     return l;
 }
 
