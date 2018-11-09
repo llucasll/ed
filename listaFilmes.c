@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Filme.h"
+#include "listaFilmes.h"
 
-Filmes* cria(){
-    Filmes* l = (Filmes* )malloc(sizeof(Filmes));
+ListaFilmes * cria(){
+    ListaFilmes *l = (ListaFilmes *)malloc(sizeof(ListaFilmes));
     l.total = 0;
     l->prim = NULL;
     l->ult = NULL;
@@ -11,16 +11,16 @@ Filmes* cria(){
 }
 
 // 0-iguais, 1-diferentes
-int comparaFilmes(Filme* a, Filme* b){
+int comparaFilmes(Filme *a, Filme *b){
     if((strcmp(a->titulo, b->titulo)==0) &&
         a->ano == b->ano)
         return 0;
     return 1;
 }
 
-Filme* busca(Filmes* l, char* titulo, int ano){
+Filme * busca(ListaFilmes *l, char *titulo, int ano){
     if(l.total == 0) return NULL;
-    NFilme* aux = l.prim;
+    NFilme * aux = l.prim;
     while(aux && ( (aux->filme->ano!=ano) ||
             (strcmp(aux->filme->titulo, titulo)!=0) ))
         aux = aux->prox;
@@ -28,18 +28,18 @@ Filme* busca(Filmes* l, char* titulo, int ano){
     return aux->filme;
 }
 
-Filme* busca(Filmes* l, Filme* f){
+Filme * busca(ListaFilmes *l, Filme *f){
     if(l.total == 0) return NULL;
-    NFilme* aux = l.prim;
+    NFilme * aux = l.prim;
     while(aux && (comparaFilmes(aux->filme, f)==1))
         aux = aux->prox;
     if(!aux) return NULL;
     return aux->filme;
 }
 
-Filmes* insere(Filmes* l, Filme* f){
+ListaFilmes * insere(ListaFilmes *l, Filme *f){
     if(busca(l, f)) return l;
-    NFilme* novo = (NFilme* )malloc(sizeof(NFilme));
+    NFilme *novo = (NFilme *)malloc(sizeof(NFilme));
     novo->filme = f;
     if(l.total == 0){
         novo->prox = NULL;
@@ -48,8 +48,8 @@ Filmes* insere(Filmes* l, Filme* f){
         l.ult = novo;
         return l;
     }
-    NFilme* aux = l.prim;
-    NFilme* menor = menor(aux->filme, f);
+    NFilme *aux = l.prim;
+    NFilme *menor = menor(aux->filme, f);
     while(aux && (comparaFilmes(menor, f)==0)){
         aux = aux->prox;
         menor = menor(aux->filme, f);
@@ -69,8 +69,8 @@ Filmes* insere(Filmes* l, Filme* f){
     return l;
 }
 
-Filmes* retira(Filmes* l, char* titulo, int ano){
-    NFilme* aux = l.prim;
+ListaFilmes * retira(ListaFilmes *l, char *titulo, int ano){
+    NFilme *aux = l.prim;
     while(aux && ( (aux->filme->ano!=ano) ||
             (strcmp(aux->filme->titulo, titulo)!=0) ))
         aux = aux->prox;
@@ -91,8 +91,8 @@ Filmes* retira(Filmes* l, char* titulo, int ano){
     return l;
 }
 
-Filmes* retira(Filmes* l, Filme* f){
-    NFilme* aux = l.prim;
+ListaFilmes * retira(ListaFilmes *l, Filme *f){
+    NFilme *aux = l.prim;
     while(aux && (comparaFilmes(aux->filme, f)==1))
         aux = aux->prox;
     if(aux){
@@ -112,16 +112,16 @@ Filmes* retira(Filmes* l, Filme* f){
     return l;
 }
 
-void imprime(Filmes* l){
-    NFilme* aux = l.prim;
+void imprime(ListaFilmes *l){
+    NFilme *aux = l.prim;
     int i=0;
     while(aux)
         printf("%d. %s (%d)", ++i, aux->filme->titulo,
                aux->filme->ano);
 }
 
-void libera(Filmes* l){
-    NFilme* aux = l.prim;
+void libera(ListaFilmes *l){
+    NFilme *aux = l.prim;
     l.ult = NULL;
     while(aux){
         l.prim = aux->prox;

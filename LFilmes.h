@@ -1,22 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Filme.h"
+#include "filme.h"
 
 typedef struct no_filme{
-    Filme* filme;
-    struct no_filme* prox,* ant;
+    Filme *filme;
+    struct no_filme *prox, *ant;
 }NFilme;
 
 typedef struct desc_lista{
     int total;
-    NFilme* prim,* ult;
-}Filmes;
+    NFilme *prim, *ult;
+}ListaFilmes;
 
-Filmes* cria();
-Filme* busca(Filmes* l, char* titulo, int ano);
-Filme* busca(Filmes* l, Filme* f);
-Filmes* insere(Filmes* l, Filme* f);
-Filmes* retira(Filmes* l, char* titulo, int ano);
-Filmes* retira(Filmes* l, Filme* f);
-void imprime(Filmes* l);
-void libera(Filmes* l);
+ListaFilmes * cria();
+Filme * busca(ListaFilmes *l, char *titulo, int ano);
+Filme * busca(ListaFilmes *l, Filme *f);
+ListaFilmes * insere(ListaFilmes *l, Filme *f);
+ListaFilmes * retira(ListaFilmes *l, char *titulo, int ano);
+ListaFilmes * retira(ListaFilmes *l, Filme *f);
+void imprime(ListaFilmes *l);
+void libera(ListaFilmes *l);
