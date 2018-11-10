@@ -1,5 +1,5 @@
 testeGestorID:
-	gcc tools/gestorIDs.c testes/testeIDsManagement.c tools/lib.c -o ~/a;
+	gcc libFilme/gestorIDs.c testes/testeIDsManagement.c libFilme/lib.c -o ~/a;
 	~/a
 	@echo
 	rm ~/a

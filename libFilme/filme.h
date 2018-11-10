@@ -1,4 +1,4 @@
-#include "tools/lib.h"
+#include "lib.h"
 
 typedef struct{
 	//chave primária composta
