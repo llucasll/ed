@@ -1,11 +1,4 @@
-#include "filme.h"
-
-typedef struct{
-	FILE *fp;
-	int t;
-}AB;
-
-AB a;
+#include "abPersistencia.h"
 
 void add(Filme f);
 void rm(char* titulo, int ano);

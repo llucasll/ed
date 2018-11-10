@@ -2,7 +2,18 @@
 
 void add(Filme f);
 void rm(char* titulo, int ano);
-Filme search(char* titulo, int ano);
+Filme search(char* titulo, int ano){
+	Filme f;
+	int i=0;
+	do{
+		fread(a.fp, sizeof(Filme), 1, &f);
+		i++;
+	} while(!filmeCerto(f, titulo, ano) && i<(a.t*2-1));
+	
+	if(!filmeCerto(f, titulo, ano)){
+		
+	}
+}
 void update(char* titulo, int ano, char* diretor, char* genero, int duracao);
 
 /*
@@ -23,5 +34,4 @@ TAB *Insere(TAB *T, int k, int t);
 TAB* remover(TAB* arv, int ch, int t);
 TAB* retira(TAB* arv, int k, int t);
 int testar(int argc, char *argv[]);
-
 */

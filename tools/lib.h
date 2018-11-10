@@ -5,15 +5,23 @@
 
 //debug
 #define oi printf("oi\n");
-#define oin(n) printf("oi %d", n);
+#define oin(n) printf("oi %d\n", n);
 
 //bool
 typedef char bool;
 #define true 1
 #define false 0
 
+int getInt(char* s);
+char* getString(char* s, int tamMax);
+int fileSize(FILE* f);
+bool dirExiste(char* nome);
+
+
+/*
 #ifndef basico
 	#define basico
 	#include "filme.h"
 	#undef basico
-#endif
+#
+*/

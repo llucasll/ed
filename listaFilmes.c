@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "listaFilmes.h"
 
 ListaFilmes * cria(){
@@ -8,14 +6,6 @@ ListaFilmes * cria(){
     l->prim = NULL;
     l->ult = NULL;
     return l;
-}
-
-// 0-iguais, 1-diferentes
-int comparaFilmes(Filme *a, Filme *b){
-    if((strcmp(a->titulo, b->titulo)==0) &&
-        a->ano == b->ano)
-        return 0;
-    return 1;
 }
 
 Filme * busca(ListaFilmes *l, char *titulo, int ano){

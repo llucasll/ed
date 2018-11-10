@@ -1,6 +1,13 @@
-#include "arvb.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-extern const int t = 2;
+const int t = 2;
+
+typedef struct ArvB{
+  int nchaves, folha, *chave;
+  struct ArvB **filho;
+}TAB;
+
 
 TAB *Cria(int t){
   TAB* novo = (TAB*)malloc(sizeof(TAB));
@@ -272,7 +279,7 @@ TAB* retira(TAB* arv, int k, int t){
 }
 
 
-int testar(int argc, char *argv[]){
+int main(int argc, char *argv[]){
   TAB * arvore = Inicializa();
   int num = 0, from, to;
   while(num != -1){

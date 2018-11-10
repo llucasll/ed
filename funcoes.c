@@ -1,8 +1,6 @@
 #include "filmes.h"
 
-Filme getFilme(FILE *f); //g
-void nextString(FILE *f, char *saida, char *separador); //l
-void inicializa(int i, char *catalogo){ //g
+void inicializa(int t, char *catalogo){ //g
 	//while(!feof(f))
 }
 
