@@ -10,6 +10,11 @@ void init(int t){
 }
 */
 
+//Apenas nesse arquivo
+void getFileName(int id, char* no, char* filhos);
+No getNoByID(int id);
+
+
 No getRaiz(void);
 No getFilho(No n, char pos);
 No getPai(No n);

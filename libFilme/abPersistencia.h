@@ -2,7 +2,7 @@
 #include "gestorIDs.h"
 
 typedef struct{
-	int id;
+	int id, idPai;
 	
 	bool ehFolha;
 	
@@ -10,30 +10,16 @@ typedef struct{
 	Filme *filmes;
 }No;
 
-/*
-void init(int t){
-	a.fp = fopen("data/raiz.bin", "r+");
-	a.t = t;
-	
-	if(!a.fp)
-		exit(1); //TODO é isso mesmo?
-}
-*/
+// NAVEGAR NA ÁRVORE
+No getRaiz(void); // ALOCA FILHOS!
+No getFilho(No pai, char pos); // ALOCA FILHOS!
+No getPai(No filho); // ALOCA FILHOS!
+void save(No n); // DESALOCA FILHOS!
 
-No getRaiz(void);
-No getFilho(No n, char pos);
-No getPai(No n);
-void save(No n);
+// REARRANJAR A ÁRVORE
+No criaNo(void); // cria um novo No em disco (tam=0), e ALOCA FILHOS! Se não existir, cria e devolve a raíz
+void apagaNo(No no); // DESALOCA FILHOS!
 
-No getNoByID(int id);
-int* getFilhos(No* no); //aloca 2t-1 id's de filho
-void updateFilhos(int* filhos, No pai); //salva pai.tam+1 filhos, e desaloca os filhos
-void getFileName(int id, char* no, char* filhos);
-
-/*
-bool ehFolha(No n);
-No getPai(No n);
-char tamanhoNo(No n);
-Filme getFilme(char pos);
-No getFilho(No n, char pos);
-*/
+// REORGANIZAR IRMÃOS
+No* getFilhos(No no); // ALOCA 2t-1 FILHOS!, mas preenche apenas no.tam+1, e retorna
+void updateFilhos(No* filhos, No pai); //salva pai.tam+1 filhos, e DESALOCA FILHOS!
