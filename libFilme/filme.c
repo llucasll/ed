@@ -1,31 +1,32 @@
 #include "filme.h"
 
-/*
-typedef struct{
-	//chave primária composta
-	char titulo[82];
-	int ano;
-
-	//outros campos
-	char diretor[52];
-	char genero[32];
-	int duracao;
-} Filme;
-*/
-
-bool filmeCerto(Filme f, char* titulo, int ano);
-
-// 0-iguais, 1-diferentes
-int comparaFilmes(Filme *a, Filme *b){
-    if((strcmp(a->titulo, b->titulo)==0) &&
-        a->ano == b->ano)
-        return 0;
-    return 1;
+bool checaFilme(Filme* f, char* titulo, int ano){
+	return ((!strcmp(f->titulo, titulo) && f.ano == ano);
 }
 
-bool ehMenor(Filme a, Filme b); //Se a < b, ordenando primeiramente por ano - g
 
-void printaFilme(Filme f);
+bool comparaFilmes(Filme *a, Filme *b){
+    return (!strcmp(a->titulo, b->titulo) && (a->ano == b->ano));
+}
 
-void nextString(FILE *f, char *saida, char *separador); //l
-Filme getFilme(FILE *f); //g
+/*
+bool comparaFilmes(Filme *a, Filme *b){
+	return !( strcmp(a->titulo, b->titulo) || (a.ano != b.ano) ||
+			strcmp(a->diretor, b->diretor) ||
+			strcmp(a->genero, b->genero) || (a.duracao != b.duracao) );
+}*/
+
+bool ehMenor(Filme* a, Filme* b){
+	if(a.ano!=b.ano) return a.ano<b.ano;
+	int t = strcmp(a->titulo, b->titulo);
+	if(!t || t==1) return false;
+	return true;
+}
+
+void imprimeFilme(Filme* f){
+	printf("%s (%d) - %s - %s - %d mins.", f->titulo,
+			f.ano, f->diretor, f->genero, f.duracao);
+}
+
+void nextString(FILE *f, char *saida, char *separador); //TODO (l)
+Filme getFilme(FILE *f); //TODO (g)
