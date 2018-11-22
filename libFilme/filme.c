@@ -23,7 +23,7 @@ int comparaFilmes(Filme *a, Filme *b){
     return 1;
 }
 
-bool menor(Filme a, Filme b); //Se a < b, ordenando primeiramente por ano - g
+bool ehMenor(Filme a, Filme b); //Se a < b, ordenando primeiramente por ano - g
 
 void printaFilme(Filme f);
 

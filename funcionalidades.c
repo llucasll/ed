@@ -1,9 +1,5 @@
 #include "filmes.h"
 
-void inicializa(int t, char *catalogo){ //g
-	//while(!feof(f))
-}
-
 bool isDirectedBy(Filme f, char *diretor); //l
 ListaFilmes directedsBy(char *diretor, AB *a); //l
 

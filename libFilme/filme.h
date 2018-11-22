@@ -13,7 +13,7 @@ typedef struct{
 
 bool filmeCerto(Filme f, char* titulo, int ano);
 bool comparaFilmes(Filme *a, Filme *b); //true se são iguais
-bool menor(Filme a, Filme b); //Se a < b, ordenando primeiramente por ano - g
+bool ehMenor(Filme a, Filme b); //Se a < b, ordenando primeiramente por ano - g
 void printaFilme(Filme f);
 Filme getFilme(FILE *f); //g
 
@@ -23,4 +23,12 @@ Filme getFilme(FILE *f); //g
 	#include "lib.h"
 	#undef basico
 #endif
+*/
+
+/*
+	if(a.ano < b.ano)
+		return true;
+	else if(a.ano == ano)
+		return strcmp(a.titulo, b.titulo) < 0;
+	else return false;
 */
