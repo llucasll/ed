@@ -6,11 +6,11 @@ An academic project
 - [ ] [catalogo.c](https://github.com/llucasll/ed/blob/master/catalogo.c) - 0/1 (0%)
   - [ ] `int main();`
 
-- [ ] [funcionalidades.c](https://github.com/llucasll/ed/blob/master/funcionalidades.c) - 0/5 (0%)
+- [ ] [funcionalidades.c](https://github.com/llucasll/ed/blob/master/funcionalidades.c) - 2/5 (40%)
   - [ ] `void inicializa(int t, char *catalogo);`
-  - [ ] `bool isDirectedBy(Filme f, char *diretor);`
+  - [x] `bool isDirectedBy(Filme f, char *diretor);`
   - [ ] `ListaFilmes directedsBy(char *diretor, AB *a);`
-  - [ ] `bool isFromGenre(Filme f, char *genero);`
+  - [x] `bool isFromGenre(Filme f, char *genero);`
   - [ ] `void removeGenre(AB *a, char *genero);`
 
 - [ ] [abPersistencia.c](https://github.com/llucasll/ed/blob/master/libFilme/abPersistencia.c) - 1/9 (11,11%)
@@ -30,13 +30,13 @@ An academic project
   - [x] `Filme search(char* titulo, int ano);`
   - [ ] `void update(char* titulo, int ano, char* diretor, char* genero, int duracao);`
 
-- [ ] [filme.c](https://github.com/llucasll/ed/blob/master/libFilme/filme.c) - 4/6 (66,67%)
+- [x] [filme.c](https://github.com/llucasll/ed/blob/master/libFilme/filme.c) - 6/6 (100%)
   - [x] `bool checaFilme(Filme* f, char* titulo, int ano);`
   - [x] `bool comparaFilmes(Filme *a, Filme *b);`
   - [x] `bool ehMenor(Filme* a, Filme* b);`
   - [x] `void imprimeFilme(Filme* f);`
-  - [ ] `void nextString(FILE *f, char *saida, char *separador);`
-  - [ ] `Filme getFilme(FILE *f);`
+  - [x] `void nextString(FILE *f, char *saida, char *separador);`
+  - [x] `Filme getFilme(FILE *f);`
 
 - [x] [gestorIDs.c](https://github.com/llucasll/ed/blob/master/libFilme/gestorIDs.c) - 3/3 (100%)
   - [x] `FILE* abrir(char* nome);`
@@ -54,5 +54,5 @@ An academic project
   - [x] `void libera(ListaFilmes *l);`
 
 #### Completude:
-Módulos: 2/7 (28,57%)  
-Funções: 17/36 (47,22%)
+Módulos: 3/7 (42,86%)  
+Funções: 21/36 (58,33%)
