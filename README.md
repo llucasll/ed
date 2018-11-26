@@ -3,8 +3,8 @@ An academic project
 
 ## TODO
 
-- [ ] [catalogo.c](https://github.com/llucasll/ed/blob/master/catalogo.c) - 0/1 (0%)
-  - [ ] `int main();`
+- [x] [catalogo.c](https://github.com/llucasll/ed/blob/master/catalogo.c) - 1/1 (100%)
+  - [x] `int main();`
 
 - [ ] [funcionalidades.c](https://github.com/llucasll/ed/blob/master/funcionalidades.c) - 2/5 (40%)
   - [ ] `void inicializa(int t, char *catalogo);`
