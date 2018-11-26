@@ -54,5 +54,5 @@ An academic project
   - [x] `void libera(ListaFilmes *l);`
 
 #### Completude:
-Módulos: 3/7 (42,86%)  
-Funções: 21/36 (58,33%)
+Módulos: 4/7 (57,14%)  
+Funções: 22/36 (61,11%)
