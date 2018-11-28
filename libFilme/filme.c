@@ -29,7 +29,6 @@ void imprimeFilme(Filme* f){
 }
 
 void nextString(FILE *f, char *saida, char *separador); //TODO (l)
-Filme getFilme(FILE *f); //TODO (g)
 
 void erro(int e){
 	switch(e){
@@ -43,4 +42,32 @@ void erro(int e){
 			break;
 	}
 	exit(e);
+
+Filme getFilme(FILE *f){
+    void nextString(FILE *f, char *saida, char separador){
+        char str[200], c;
+        c=fgetc(f);
+        if (c==EOF || c=='\n'){
+            strcpy(saida,"");
+            return;
+        }
+        sprintf(saida, "%c",c);
+
+        while(c!= EOF){
+            c=fgetc(f);
+            if (c==separador) break;
+            sprintf(str, "%c", c);
+            strcat(saida, str);
+        }
+    }
+    Filme novo_filme;
+    char nxtStrAuxiliar[81];
+    nextString(f, novo_filme.titulo, '/');
+    nextString(f, nxtStrAuxiliar, '/');
+    novo_filme.ano = atoi(nxtStrAuxiliar);
+    nextString(f, novo_filme.diretor, '/');
+    nextString(f, novo_filme.genero, '/');
+    nextString(f, nxtStrAuxiliar, '\n');
+    novo_filme.duracao = atoi(nxtStrAuxiliar);
+    return novo_filme;
 }
