@@ -17,6 +17,8 @@ bool ehMenor(Filme a, Filme b); //Se a < b, ordenando primeiramente por ano - g
 void printaFilme(Filme f);
 Filme getFilme(FILE *f); //g
 
+int t;
+
 /*
 #ifndef basico
 	#define basico
@@ -32,3 +34,4 @@ Filme getFilme(FILE *f); //g
 		return strcmp(a.titulo, b.titulo) < 0;
 	else return false;
 */
+

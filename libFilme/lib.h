@@ -14,9 +14,13 @@ typedef char bool;
 
 int getInt(char* s);
 char* getString(char* s, int tamMax);
+
 int fileSize(FILE* f);
 bool dirExiste(char* nome);
+FILE* abrir(char* nome);
 
+// trata erros; Deve ser implementada
+void erro(int e);
 
 /*
 #ifndef basico

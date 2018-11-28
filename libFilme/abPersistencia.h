@@ -2,7 +2,7 @@
 #include "gestorIDs.h"
 
 typedef struct{
-	int id, idPai;
+	int id;
 	
 	bool ehFolha;
 	
@@ -10,16 +10,19 @@ typedef struct{
 	Filme *filmes;
 }No;
 
+// REPRESENTAÇÃO DE UM NÓ QUE NÃO EXISTE
+extern No vazio; // {0, true, 0, NULL}
+
 // NAVEGAR NA ÁRVORE
-No getRaiz(void); // ALOCA FILHOS!
-No getFilho(No pai, char pos); // ALOCA FILHOS!
-No getPai(No filho); // ALOCA FILHOS!
-void save(No n); // DESALOCA FILHOS!
+No getRaiz(void); // ALOCA FILMES!
+No getFilho(No pai, char pos); // ALOCA FILMES!
+No getPai(No filho); // ALOCA FILMES!
+void save(No n); // DESALOCA FILMES!
 
 // REARRANJAR A ÁRVORE
-No criaNo(void); // cria um novo No em disco (tam=0), e ALOCA FILHOS! Se não existir, cria e devolve a raíz
-void apagaNo(No no); // DESALOCA FILHOS!
+No criaNo(void); // cria um novo No (tam=0), e ALOCA FILMES! NÃO USE PARA OBTER A RAÍZ (use a getRaiz)
+void apagaNo(No no); // DESALOCA FILMES!
 
 // REORGANIZAR IRMÃOS
-No* getFilhos(No no); // ALOCA 2t-1 FILHOS!, mas preenche apenas no.tam+1, e retorna
-void updateFilhos(No* filhos, No pai); //salva pai.tam+1 filhos, e DESALOCA FILHOS!
+No* getFilhos(No no); // ALOCA 2t-1 FILMES!, mas preenche apenas no.tam+1, e retorna
+void updateFilhos(No* filhos, No pai); //salva pai.tam+1 filhos, e DESALOCA FILMES!

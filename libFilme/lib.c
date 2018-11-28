@@ -56,3 +56,23 @@ bool dirExiste(char* nome){
 		exit(10);
 	}
 }
+
+FILE* abrir(char* nome){
+	if(!dirExiste("data"))
+		system("mkdir data");
+	
+	FILE* f = fopen(nome, "r+"); // modo que preserva o conteúdo
+	if(!f) f = fopen(nome, "w+"); // modo que cria novo arquivo, se não existe (ou apaga o conteúdo, se existir)
+	
+	if(!f){
+		printf("Erro ao abrir o arquivo: %s", nome);
+		exit(1);
+	}
+	
+	/*
+	#include <errno.h>
+	printf("%d", errno);
+	*/
+	
+	return f;
+}

@@ -30,3 +30,17 @@ void imprimeFilme(Filme* f){
 
 void nextString(FILE *f, char *saida, char *separador); //TODO (l)
 Filme getFilme(FILE *f); //TODO (g)
+
+void erro(int e){
+	switch(e){
+		case 0:
+			return;
+		case 1:
+			printf("\nErro de abertura de arquivo!\n\n");
+			break;
+		default:
+			printf("\nErro %d desconhecido!\n\n", e);
+			break;
+	}
+	exit(e);
+}
