@@ -11,11 +11,11 @@ typedef struct{
 	int duracao;
 } Filme;
 
-bool filmeCerto(Filme f, char* titulo, int ano);
+bool checaFilme(Filme f, char* titulo, int ano);
 bool comparaFilmes(Filme *a, Filme *b); //true se são iguais
 bool ehMenor(Filme a, Filme b); //Se a < b, ordenando primeiramente por ano - g
-void printaFilme(Filme f);
-Filme getFilme(FILE *f); //g
+void imprimeFilme(Filme f);
+Filme getFilme(FILE *f);
 
 int t;
 
