@@ -31,10 +31,10 @@ An academic project
   - [ ] `void update(char* titulo, int ano, char* diretor, char* genero, int duracao);`
 
 - [x] [filme.c](https://github.com/llucasll/ed/blob/master/libFilme/filme.c) - 6/6 (100%)
-  - [x] `bool checaFilme(Filme* f, char* titulo, int ano);`
-  - [x] `bool comparaFilmes(Filme *a, Filme *b);`
-  - [x] `bool ehMenor(Filme* a, Filme* b);`
-  - [x] `void imprimeFilme(Filme* f);`
+  - [x] `bool checaFilme(Filme f, char* titulo, int ano);`
+  - [x] `bool comparaFilmes(Filme a, Filme b);`
+  - [x] `bool ehMenor(Filme a, Filme b);`
+  - [x] `void imprimeFilme(Filme f);`
   - [x] `void nextString(FILE *f, char *saida, char *separador);`
   - [x] `Filme getFilme(FILE *f);`
 

@@ -5,16 +5,9 @@ bool checaFilme(Filme f, char* titulo, int ano){
 }
 
 
-bool comparaFilmes(Filme *a, Filme *b){
-    return (!strcmp(a->titulo, b->titulo) && (a->ano == b->ano));
+bool comparaFilmes(Filme a, Filme b){
+    return (!strcmp(a.titulo, b.titulo) && (a.ano == b.ano));
 }
-
-/*
-bool comparaFilmes(Filme *a, Filme *b){
-	return !( strcmp(a->titulo, b->titulo) || (a.ano != b.ano) ||
-			strcmp(a->diretor, b->diretor) ||
-			strcmp(a->genero, b->genero) || (a.duracao != b.duracao) );
-}*/
 
 bool ehMenor(Filme a, Filme b){
 	if(a.ano!=b.ano) return a.ano<b.ano;
@@ -27,8 +20,6 @@ void imprimeFilme(Filme f){
 	printf("%s (%d) - %s - %s - %d mins.", f.titulo,
 			f.ano, f.diretor, f.genero, f.duracao);
 }
-
-void nextString(FILE *f, char *saida, char *separador); //TODO (l)
 
 Filme getFilme(FILE *f){
     void nextString(FILE *f, char *saida, char separador){

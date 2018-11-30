@@ -40,7 +40,7 @@ void add(Filme f){
         }
         while((i>=0) && (ehMenor(f, no->filmes[i]))) i--;
         i++;
-        if(getFilho(no, i)->tam == ((2*t)-1)) {// getFilho recebe ponteiro, passei variável
+        if(getFilho(no, i)->tam == ((2*t)-1)) {
             no = divisao(no, i+1, getFilho(no, i));
             if(ehMenor(no->filmes[i], f)) i++;
         }
@@ -83,7 +83,7 @@ Filme search(No no, char* titulo, int ano){
     int i=0;
 	for(i=0 ; i < no.tam ; i++)
         if(!ehMenor(no.filmes[i], ref)) break;
-    if(i < no.tam && comparaFilmes(&no.filmes[i], &ref)) return no.filmes[i]; // TODO verificar
+    if(i < no.tam && comparaFilmes(no.filmes[i], ref)) return no.filmes[i];
     if(no.ehFolha) return NULL;
     return search(getFilho(no, i), titulo, ano);
 }

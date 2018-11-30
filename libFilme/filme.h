@@ -12,8 +12,8 @@ typedef struct{
 } Filme;
 
 bool checaFilme(Filme f, char* titulo, int ano);
-bool comparaFilmes(Filme *a, Filme *b); //true se são iguais
-bool ehMenor(Filme a, Filme b); //Se a < b, ordenando primeiramente por ano - g
+bool comparaFilmes(Filme a, Filme b); //true se são iguais
+bool ehMenor(Filme a, Filme b); //a < b
 void imprimeFilme(Filme f);
 Filme getFilme(FILE *f);
 
