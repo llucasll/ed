@@ -1,5 +1,4 @@
 #include "filmes.h"
-
 #include <string.h>
 
 bool isDirectedBy(Filme f, char *diretor){

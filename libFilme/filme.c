@@ -4,7 +4,6 @@ bool checaFilme(Filme f, char* titulo, int ano){
 	return ((!strcmp(f.titulo, titulo) && f.ano == ano);
 }
 
-
 bool comparaFilmes(Filme a, Filme b){
     return (!strcmp(a.titulo, b.titulo) && (a.ano == b.ano));
 }
