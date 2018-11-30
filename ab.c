@@ -1,19 +1,25 @@
 #include "ab.h"
 
 void add(Filme f);
+
 void rm(char* titulo, int ano);
-Filme search(char* titulo, int ano){
-	Filme f;
-	int i=0;
-	do{
-		fread(a.fp, sizeof(Filme), 1, &f);
-		i++;
-	} while(!filmeCerto(f, titulo, ano) && i<(a.t*2-1));
-	
-	if(!filmeCerto(f, titulo, ano)){
-		
-	}
+
+Filme search(No no, char* titulo, int ano){
+	if(!no) return NULL;
+	Filme ref;
+	strcpy(ref.titulo, titulo);
+	ref.ano = ano;
+	Filme* filmes;
+    int i=0;
+	for(i=0 ; i < no.tam ; i++){
+        filmes = no.filmes;
+        if(!ehMenor(filmes[i], ref)) break;
+    }
+    if(i < no.tam && comparaFilmes(&filmes[i], &ref)) return filmes[i];
+    if(no.ehFolha) return NULL;
+    return search(getFilho(no, i), titulo, ano);
 }
+
 void update(char* titulo, int ano, char* diretor, char* genero, int duracao);
 
 /*
