@@ -20,7 +20,7 @@ int main(){
     int t, opt;
     printf("Entre com um fator T: ");
     scanf("%d", &t);
-    system("cls");
+    system("cls||clear");
     do{
         printf("\nFuncoes:\n");
         opt = menu();
