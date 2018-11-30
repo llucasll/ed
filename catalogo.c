@@ -1,7 +1,14 @@
+#include <stdlib.h>
+#include <stdio.h>
 //includes
 
-void inicializa(int t, char *catalogo){ //g
-	//while(!feof(f))
+void inicializa(int t, char *catalogo){
+    FILE* fp = fopen(catalogo, "r");
+    Filme f = getFilme(fp);
+    while(f.ano){
+        add(f, t);
+        f = getFilme(fp);
+    }
 }
 
 int main(){
@@ -18,8 +25,12 @@ int main(){
         return n;
     }
     int t, opt;
-    printf("Entre com um fator T: ");
+    char* catalogo;
+    printf("Nome do arquivo: ");
+    scanf("%s", &catalogo);
+    printf("Fator T: ");
     scanf("%d", &t);
+    inicializa(t, catalogo);
     system("cls||clear");
     do{
         printf("\nFuncoes:\n");
