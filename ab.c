@@ -80,18 +80,41 @@ Filme search(No no, char* titulo, int ano){
 	Filme ref;
 	strcpy(ref.titulo, titulo);
 	ref.ano = ano;
-	Filme* filmes;
     int i=0;
-	for(i=0 ; i < no.tam ; i++){
-        filmes = no.filmes;
-        if(!ehMenor(filmes[i], ref)) break;
-    }
-    if(i < no.tam && comparaFilmes(&filmes[i], &ref)) return filmes[i]; // TODO verificar
+	for(i=0 ; i < no.tam ; i++)
+        if(!ehMenor(no.filmes[i], ref)) break;
+    if(i < no.tam && comparaFilmes(&no.filmes[i], &ref)) return no.filmes[i]; // TODO verificar
     if(no.ehFolha) return NULL;
     return search(getFilho(no, i), titulo, ano);
 }
 
-void update(char* titulo, int ano, char* diretor, char* genero, int duracao);
+void update(char* titulo, int ano, char* diretor, char* genero, int duracao){
+    No no = getRaiz();
+    if(!no) return NULL;
+    void altera(){
+        strcpy(no.filmes[i]->diretor,diretor);
+        strcpy(no.filmes[i]->genero,genero);
+        no.filmes[i]->duracao = duracao;
+        save(no);
+        return;
+    }
+    Filme ref;
+    strcpy(ref.titulo,titulo);
+    ref.ano = ano;
+    while(1){
+        for(int i=0;i<no.tam;i++){
+            if(checaFilme(no.filmes[i], titulo, ano)){
+                altera();
+                return;
+            }
+            if(ehMenor(ref,no.filmes[i])){
+                if(no.ehFolha) return;
+                no = getFilho(no, i);
+                break;
+            }
+        }
+    }
+}
 
 /*
 const int t = 2;
