@@ -13,12 +13,8 @@ int main(){
         printf("\nEscolha uma funcao: ");
         int n;
         scanf("%d", &n);
-        if(n<1||n>4){
-            printf("\nValor invalido.\nPressione qualquer tecla.");
-            getch();
-            system("cls");
+        if((n<1||n>4)&&(n!=-1))
             return 0;
-        }
         return n;
     }
     int t, opt;
@@ -28,21 +24,24 @@ int main(){
     do{
         printf("\nFuncoes:\n");
         opt = menu();
-    }while(!opt);
-    switch(opt){
-        case 1:
-            printf("Dummy 1");
-            break;
-        case 2:
-            printf("Dummy 2");
-            break;
-        case 3:
-            printf("Dummy 3");
-            break;
-        case 4:
-            printf("Dummy 4");
-            break;
-        default:
-            printf("Desculpa, professora.");
-    }
+        switch(opt){
+            case 0:
+                printf("\nValor invalido.\nPressione qualquer tecla.");
+                getch();
+                system("cls||clear");
+                break;
+            case 1:
+                printf("Dummy 1");
+                break;
+            case 2:
+                printf("Dummy 2");
+                break;
+            case 3:
+                printf("Dummy 3");
+                break;
+            case 4:
+                printf("Dummy 4");
+                break;
+        }
+    }while(opt!=-1);
 }
