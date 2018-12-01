@@ -1,6 +1,5 @@
-#include "libFilme/filme.h"
 #include "ab.h"
 
-ListaFilmes directedsBy(char *diretor); //l
+ListaFilmes directedsBy(char *diretor, No a); //l
 
-void removeGenre(char *genero); //l
+void removeGenre(No a, char *genero); //l

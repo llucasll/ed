@@ -14,9 +14,9 @@ typedef struct desc_lista{
 
 ListaFilmes * cria();
 Filme * busca(ListaFilmes *l, char *titulo, int ano);
-Filme * busca(ListaFilmes *l, Filme *f);
+Filme * busca2(ListaFilmes *l, Filme *f);
 ListaFilmes * insere(ListaFilmes *l, Filme *f);
 ListaFilmes * retira(ListaFilmes *l, char *titulo, int ano);
-ListaFilmes * retira(ListaFilmes *l, Filme *f);
+ListaFilmes * retira2(ListaFilmes *l, Filme *f);
 void imprime(ListaFilmes *l);
 void libera(ListaFilmes *l);

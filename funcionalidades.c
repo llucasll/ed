@@ -1,4 +1,5 @@
-#include "filmes.h"
+#include "funcionalidades.h"
+
 #include <string.h>
 
 bool isDirectedBy(Filme f, char *diretor){
@@ -7,7 +8,7 @@ bool isDirectedBy(Filme f, char *diretor){
     return false;
 }
 
-ListaFilmes directedsBy(char *diretor, AB *a); //l
+ListaFilmes directedsBy(char *diretor, No a); //l
 
 bool isFromGenre(Filme f, char *genero){
     if(!strstr(f.genero,genero))
@@ -15,7 +16,7 @@ bool isFromGenre(Filme f, char *genero){
     return true;
 }
 
-void removeGenre(No *a, char *genero){
+void removeGenre(No a, char *genero){
 	for(int i=0; i<a.tam; i++){
 		// TODO
 	}
