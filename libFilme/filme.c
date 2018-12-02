@@ -22,23 +22,16 @@ void imprimeFilme(Filme f){
 
 Filme getFilme(FILE *f){
     void nextString(FILE *f, char *saida, char separador){
-        char str[200], c;
-        c=fgetc(f);
-        if (c==EOF || c=='\n'){
-            strcpy(saida,"");
-            return;
+        char c = fgetc(f);
+        int i;
+        for(i=0; !feof(f) && c!=separador; i++){
+            saida[i] = c;
+            c = fgetc(f);
         }
-        sprintf(saida, "%c",c);
-
-        while(c!= EOF){
-            c=fgetc(f);
-            if (c==separador) break;
-            sprintf(str, "%c", c);
-            strcat(saida, str);
-        }
+        saida[i] = '\0';
     }
     Filme novo_filme;
-    char nxtStrAuxiliar[81];
+    char nxtStrAuxiliar[82];
     nextString(f, novo_filme.titulo, '/');
     nextString(f, nxtStrAuxiliar, '/');
     novo_filme.ano = atoi(nxtStrAuxiliar);

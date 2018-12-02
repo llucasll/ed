@@ -3,11 +3,11 @@
 
 #include "funcionalidades.h"
 
-void inicializa(int t, char *catalogo){
+void inicializa(char *catalogo){
     FILE* fp = fopen(catalogo, "r");
     Filme f = getFilme(fp);
-    while(f.ano){
-        add(f, t);
+    while(f.ano){oi
+        add(f, t);oi
         f = getFilme(fp);
     }
 }
@@ -37,7 +37,7 @@ int main(){
     sprintf(catalogo, "filmes.txt");
     t = 2;
     
-    inicializa(t, catalogo);
+    inicializa(catalogo);
     system("cls||clear");
     do{
         printf("\nFuncoes:\n");
