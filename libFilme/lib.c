@@ -25,7 +25,7 @@ int fileSize2(FILE* f){
 int fileSize(FILE* f){
 	int tmp = ftell(f);
 	rewind(f);
-	
+
 	int nada;
 	int i;
 	for(i=0; !feof(f); i++)
@@ -35,44 +35,44 @@ int fileSize(FILE* f){
 	fseek(f, SEEK_SET, tmp);
 	return i;
 }
-
+/*
 bool dirExiste(char* nome){
 	#include <dirent.h>
 	#include <errno.h>
 
 	DIR* dir = opendir(nome);
 	if (dir){
-		/* Directory exists. */
+		// Directory exists.
 		closedir(dir);
 		return true;
 	}
 	else if (ENOENT == errno){
-		/* Directory does not exist. */		
+		// Directory does not exist.
 		closedir(dir);
 		return false;
 	}
 	else{
-		/* opendir() failed for some other reason. */
+		// opendir() failed for some other reason.
 		exit(10);
 	}
 }
-
+*/
 FILE* abrir(char* nome){
-	if(!dirExiste("data"))
-		system("mkdir data");
-	
+	//if(!dirExiste("data"))
+	//	system("mkdir data");
+
 	FILE* f = fopen(nome, "r+"); // modo que preserva o conteúdo
 	if(!f) f = fopen(nome, "w+"); // modo que cria novo arquivo, se não existe (ou apaga o conteúdo, se existir)
-	
+
 	if(!f){
 		printf("Erro ao abrir o arquivo: %s", nome);
 		exit(1);
 	}
-	
+
 	/*
 	#include <errno.h>
 	printf("%d", errno);
 	*/
-	
+
 	return f;
 }

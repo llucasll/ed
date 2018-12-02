@@ -20,8 +20,6 @@
 	void imprimeFilme(Filme f);
 	Filme getFilme(FILE *f);
 
-	int t;
-
 	/*
 	#ifndef basico
 		#define basico

@@ -6,8 +6,8 @@
 void inicializa(char *catalogo){
     FILE* fp = fopen(catalogo, "r");
     Filme f = getFilme(fp);
-    while(f.ano){oi
-        add(f, t);oi
+    while(f.ano){
+        add(f, t);
         f = getFilme(fp);
     }
 }
@@ -17,7 +17,7 @@ int main(){
         printf("\t1 - Busca filme\n");
         printf("\t2 - Altera filme\n");
         printf("\t3 - Lista filmes por diretor\n");
-        printf("\t4 - Retire filmes por gÃªnero\n");
+        printf("\t4 - Retire filmes por gênero\n");
         printf("\nEscolha uma funcao: ");
         int n;
         scanf("%d", &n);
@@ -25,18 +25,18 @@ int main(){
             return 0;
         return n;
     }
-    int t, opt;
+    int opt;
     char* catalogo;
-    
+
     //TODO
     //printf("Nome do arquivo: ");
-    //scanf("%s", catalogo);    
+    //scanf("%s", catalogo);
     //printf("Fator T: ");
     //scanf("%d", &t);
     catalogo = (char*) malloc(sizeof(char) * 20);
     sprintf(catalogo, "filmes.txt");
     t = 2;
-    
+
     inicializa(catalogo);
     system("cls||clear");
     do{

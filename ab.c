@@ -55,12 +55,13 @@ No add(Filme f, int t){
         save(no);
         return no;
     }
-
     No no = getRaiz();
-    if(search(no, f.titulo, f.ano).ano) return no;// TODO
-    if(!no.filmes){
+    printf("%s (%d) \n-> no.tam %d\n\n", f.titulo, f.ano, no.tam); // tamanho do nó não é devidamente atualizado
+    if(search(no, f.titulo, f.ano).ano) return no;
+    if(no.tam == 0){ // cai nesse caso em todas as vezes
         no = criaNo();
         no.filmes[0] = f;
+        //imprimeFilme(f); // imprime vários filmes, sem pular nenhum.
         no.tam = 1;
         save(no);
         return no;
