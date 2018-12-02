@@ -27,10 +27,16 @@ int main(){
     }
     int t, opt;
     char* catalogo;
-    printf("Nome do arquivo: ");
-    scanf("%s", catalogo);
-    printf("Fator T: ");
-    scanf("%d", &t);
+    
+    //TODO
+    //printf("Nome do arquivo: ");
+    //scanf("%s", catalogo);    
+    //printf("Fator T: ");
+    //scanf("%d", &t);
+    catalogo = (char*) malloc(sizeof(char) * 20);
+    sprintf(catalogo, "filmes.txt");
+    t = 2;
+    
     inicializa(t, catalogo);
     system("cls||clear");
     do{
