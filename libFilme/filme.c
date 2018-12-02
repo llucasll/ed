@@ -1,7 +1,7 @@
 #include "filme.h"
 
 bool checaFilme(Filme f, char* titulo, int ano){
-	return ((!strcmp(f.titulo, titulo) && f.ano == ano);
+	return ((!strcmp(f.titulo, titulo) && f.ano == ano));
 }
 
 bool comparaFilmes(Filme a, Filme b){

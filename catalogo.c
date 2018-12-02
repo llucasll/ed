@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
-//includes
+
+#include "funcionalidades.h"
 
 void inicializa(int t, char *catalogo){
     FILE* fp = fopen(catalogo, "r");
@@ -27,7 +28,7 @@ int main(){
     int t, opt;
     char* catalogo;
     printf("Nome do arquivo: ");
-    scanf("%s", &catalogo);
+    scanf("%s", catalogo);
     printf("Fator T: ");
     scanf("%d", &t);
     inicializa(t, catalogo);
@@ -38,7 +39,7 @@ int main(){
         switch(opt){
             case 0:
                 printf("\nValor invalido.\nPressione qualquer tecla.");
-                getch();
+                getc(stdin);
                 system("cls||clear");
                 break;
             case 1:
@@ -55,4 +56,18 @@ int main(){
                 break;
         }
     }while(opt!=-1);
+}
+
+void erro(int e){
+	switch(e){
+		case 0:
+			return;
+		case 1:
+			printf("\nErro de abertura de arquivo!\n\n");
+			break;
+		default:
+			printf("\nErro %d desconhecido!\n\n", e);
+			break;
+	}
+	exit(e);
 }
