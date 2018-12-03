@@ -1,5 +1,7 @@
 make:
 	@echo
+	rm data/*
+	@echo
 	gcc ab.c catalogo.c funcionalidades.c libFilme/*.c -o ~/a
 	@echo
 	~/a

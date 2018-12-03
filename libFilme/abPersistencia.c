@@ -149,7 +149,7 @@ void getFileName(int id, char* no, char* filhos){
 	// Créditos a Eduardo Canellas
 	sprintf(s, "%d", id);
 	int tam = strlen(s);
-	for(int i=0; i<tam-1; i++) s[i] = '~';
+	for(int i=0; i<tam-1; i++) s[i] = '_';
 	sprintf(s+tam-1, "%d", id);
 	
 	if(no){
