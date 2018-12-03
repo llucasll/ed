@@ -30,8 +30,22 @@ int getPaiID(int filho);
 void setPaiID(int filho, int pai);
 
 No getRaiz(void){
-	return getNoByID(0);
+	FILE* f = fopen("data/raiz.id", "r");
+	if(!f)
+		return getNoByID(0);
+	else{
+		int id;
+		fscanf(f, "%d", &id);
+		return getNoByID(id);
+	}
 }
+void atualizaRaiz(No no){
+	FILE* f = fopen("data/raiz.id", "w");
+	if(!f) erro(1);
+	else
+		fprintf(f, "%d", no.id);
+}
+
 No getFilho(No n, char pos){
 	if(n.ehFolha)
 		return vazio;
