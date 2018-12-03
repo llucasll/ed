@@ -71,13 +71,16 @@ No add(Filme f, int t){
         oin(3);
         No no_s = criaNo();
         no_s.tam = 0;
-        no_s.ehFolha = false;
+        no_s.ehFolha = true;
         No* filhos = getFilhos(no_s);
+        no_s.ehFolha = false;
+        save(no_s);
         filhos[0] = no;
         updateFilhos(filhos, no_s);
         no_s = divisao(no_s,1,no);
+        no.tam = t-1;
         no_s = insere_incompleto(no_s,f);
-        save(no_s);
+        //save(no_s);
         return no_s;
     }
     oin(2);

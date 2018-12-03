@@ -15,6 +15,7 @@ extern No vazio; // {0, true, 0, NULL}
 
 // NAVEGAR NA ÁRVORE
 No getRaiz(void); // ALOCA FILMES!
+void atualizaRaiz(No n);
 No getFilho(No pai, char pos); // ALOCA FILMES!
 No getPai(No filho); // ALOCA FILMES!
 void save(No n); // DESALOCA FILMES!
