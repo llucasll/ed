@@ -36,6 +36,7 @@ No getRaiz(void){
 	else{
 		int id;
 		fscanf(f, "%d", &id);
+		fclose(f);
 		return getNoByID(id);
 	}
 }
@@ -44,6 +45,7 @@ void atualizaRaiz(No no){
 	if(!f) erro(1);
 	else
 		fprintf(f, "%d", no.id);
+	fclose(f);
 }
 
 No getFilho(No n, char pos){
@@ -83,6 +85,9 @@ void save(No n){
 	else erro(1);
 	free(n.filmes);
 }
+No reload(No n){
+	return getNoByID(n.id);
+}
 
 No* getFilhos(No no){ //aloca 2t-1 id's de filho
 	No* resp = (No*) malloc(sizeof(No)*(2*t-1));
@@ -105,9 +110,11 @@ void updateFilhos(No* filhos, No pai){ //salva pai.tam+1 filhos no modo w+, e de
 	}
 	else erro(1);
 	
-	No pai2 = getNoByID(pai.id); // A função que chama updateFilhos pode não ter salvo ainda/não querer salvar
-	pai2.ehFolha = false;
-	save(pai2);
+	//if(pai.id == 1) oin(23)
+	//No pai2 = getNoByID(pai.id); // A função que chama updateFilhos pode não ter salvo ainda/não querer salvar
+	pai.ehFolha = false;
+	save(pai);
+	free(pai.filmes);
 }
 
 No criaNo(void){ // cria um novo No (tam=0), e ALOCA FILMES! NÃO USE PARA OBTER A RAÍZ (use a getRaiz)

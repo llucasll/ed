@@ -19,6 +19,7 @@ void atualizaRaiz(No n);
 No getFilho(No pai, char pos); // ALOCA FILMES!
 No getPai(No filho); // ALOCA FILMES!
 void save(No n); // DESALOCA FILMES!
+No reload(No n);
 
 // REARRANJAR A ÁRVORE
 No criaNo(void); // cria um novo No (tam=0), e ALOCA FILMES! NÃO USE PARA OBTER A RAÍZ (use a getRaiz)

@@ -24,8 +24,12 @@ No add(Filme f, int t){
         No* filhos_no1 = getFilhos(no1);
         for(j=no1.tam; j>=i; j--) filhos_no1[j+1] = filhos_no1[j];
         filhos_no1[i] = no3;
+        //oin(filhos_no1[0].id)
+        //oin(filhos_no1[1].id)
+        //oin(no1.id)
         updateFilhos(filhos_no1, no1);
         for(j=no1.tam; j>=i; j--) no1.filmes[j+1]=no1.filmes[j];
+        no1 = reload(no1);
         no1.filmes[i-1] = no2.filmes[t-1];
         no1.tam++;
         save(no1);
@@ -56,7 +60,7 @@ No add(Filme f, int t){
         return no;
     }
     No no = getRaiz();
-    printf("%s (%d) \n-> no.tam %d\n\n", f.titulo, f.ano, no.tam); // tamanho do nó não é devidamente atualizado
+    //printf("%s (%d) \n-> no.tam %d\n\n", f.titulo, f.ano, no.tam); // tamanho do nó não é devidamente atualizado
     if(search(no, f.titulo, f.ano).ano) return no;
     if(no.tam == 0){ // cai nesse caso em todas as vezes
         //no = criaNo();
@@ -64,12 +68,13 @@ No add(Filme f, int t){
         //imprimeFilme(f); // imprime vários filmes, sem pular nenhum.
         no.tam = 1;
         save(no);
-        oin(1);
+        //oin(1);
         return no;
     }
     if(no.tam == (2*t)-1){
-        oin(3);
+        //oin(3);
         No no_s = criaNo();
+        //oin(no_s.id)
         no_s.tam = 0;
         no_s.ehFolha = true;
         No* filhos = getFilhos(no_s);
@@ -78,12 +83,11 @@ No add(Filme f, int t){
         filhos[0] = no;
         updateFilhos(filhos, no_s);
         no_s = divisao(no_s,1,no);
-        no.tam = t-1;
         no_s = insere_incompleto(no_s,f);
         //save(no_s);
         return no_s;
     }
-    oin(2);
+    //oin(2);
     no = insere_incompleto(no,f);
     save(no);
     return no;
