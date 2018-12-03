@@ -28,14 +28,13 @@ int main(){
     int opt;
     char* catalogo;
 
-    //TODO
-    //printf("Nome do arquivo: ");
-    //scanf("%s", catalogo);
-    //printf("Fator T: ");
-    //scanf("%d", &t);
-    catalogo = (char*) malloc(sizeof(char) * 20);
-    sprintf(catalogo, "filmes.txt");
-    t = 2;
+    printf("Nome do arquivo: ");
+    scanf("%s", catalogo);
+    printf("Fator T: ");
+    scanf("%d", &t);
+    //catalogo = (char*) malloc(sizeof(char) * 20);
+    //sprintf(catalogo, "filmes.txt");
+    //t = 2;
 
     inicializa(catalogo);
     system("cls||clear");
@@ -48,17 +47,43 @@ int main(){
                 getc(stdin);
                 system("cls||clear");
                 break;
-            case 1:
-                printf("Dummy 1");
+            case 1: //Busca filme
+                printf("Titulo: ");
+                char titulo[82];
+                fgets(titulo, 82, stdin);
+                printf("Ano: ");
+                int ano;
+                scanf("%d", &ano);
+                Filme f = search(getRaiz(), titulo, ano);
+                if(!f.ano) printf("Filme nao encontrado.");
+                else imprimeFilme(f);
                 break;
-            case 2:
-                printf("Dummy 2");
+            case 2: //Altera filme
+                printf("Titulo: ");
+                char titulo[82];
+                fgets(titulo, 82, stdin);
+                printf("Ano: ");
+                int ano;
+                scanf("%d", &ano);
+                char diretor[52];
+                fgets(diretor, 52, stdin);
+                char genero[32];
+                fgets(genero, 32, stdin);
+                int duracao;
+                scanf("%d", duracao);
+                update(titulo, ano, diretor, genero, duracao);
                 break;
-            case 3:
-                printf("Dummy 3");
+            case 3: // Lista por diretor
+                printf("Diretor: ");
+                char diretor[52];
+                fgets(diretor, 52, stdin);
+                imprime(directedsBy(diretor, getRaiz()));
                 break;
-            case 4:
-                printf("Dummy 4");
+            case 4: // Retira por gênero
+                printf("Genero: ");
+                char genero[32];
+                fgets(genero, 32, stdin);
+                removeGenre(getRaiz(), genero);
                 break;
         }
     }while(opt!=-1);

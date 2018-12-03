@@ -27,10 +27,10 @@ Filme * busca2(ListaFilmes *l, Filme *f){
     return aux->filme;
 }
 
-ListaFilmes * insere(ListaFilmes *l, Filme *f){
-    if(busca(l, f->titulo, f->ano)) return l;
+ListaFilmes * insere(ListaFilmes *l, Filme f){
+    if(busca(l, f.titulo, f.ano)) return l;
     NFilme *novo = (NFilme *)malloc(sizeof(NFilme));
-    novo->filme = f;
+    novo->filme = &f;
     if(l->total == 0){
         novo->prox = NULL;
         novo->ant = NULL;
@@ -39,10 +39,10 @@ ListaFilmes * insere(ListaFilmes *l, Filme *f){
         return l;
     }
     NFilme *aux = l->prim;
-    NFilme *menor = ehMenor(*(aux->filme), *f)? aux : novo;
-    while(aux && (comparaFilmes(*(menor->filme), *f)==0)){
+    NFilme *menor = ehMenor(*(aux->filme), f)? aux : novo;
+    while(aux && (comparaFilmes(*(menor->filme), f)==0)){
         aux = aux->prox;
-        menor = ehMenor(*(aux->filme), *f)? aux : novo;
+        menor = ehMenor(*(aux->filme), f)? aux : novo;
     }
     if(!aux){
         l->ult->prox = novo;
