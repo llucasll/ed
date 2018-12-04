@@ -7,7 +7,7 @@ void inicializa(char *catalogo){
     FILE* fp = fopen(catalogo, "r");
     Filme f = getFilme(fp);
     while(f.ano){
-        atualizaRaiz(add(f, t));
+        atualizaRaiz(add(f, t));oi
         f = getFilme(fp);
     }
 }

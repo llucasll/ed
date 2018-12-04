@@ -114,7 +114,6 @@ void updateFilhos(No* filhos, No pai){ //salva pai.tam+1 filhos no modo w+, e de
 	//No pai2 = getNoByID(pai.id); // A função que chama updateFilhos pode não ter salvo ainda/não querer salvar
 	pai.ehFolha = false;
 	save(pai);
-	free(pai.filmes);
 }
 
 No criaNo(void){ // cria um novo No (tam=0), e ALOCA FILMES! NÃO USE PARA OBTER A RAÍZ (use a getRaiz)
