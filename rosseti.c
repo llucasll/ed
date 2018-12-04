@@ -1,32 +1,62 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+#include "libFilme/gestorIDs.h"
 
 const int t = 2;
 
 typedef struct ArvB{
-  int nchaves, folha, *chave;
-  struct ArvB **filho;
+  int id, nchaves, folha, *chave;
+  int* filho;
 }TAB;
 
+char* getFileName(int id){
+	char s[100];
+	char* no = (char*) malloc(sizeof(char)*100);	
+	
+	// Créditos a Eduardo Canellas
+	sprintf(s, "%d", id);
+	int tam = strlen(s);
+	for(int i=0; i<tam-1; i++) s[i] = '_';
+	sprintf(s+tam-1, "%d", id);
+	
+	sprintf(no, "data/%s.node", s);
+	
+	return no;
+	
+}
+
+int arvoreVazia(void){
+	FILE* f = fopen("data/raiz.id", "r");
+	if(!f){ // Árvore vazia!
+		return 1;
+	}
+	else{
+		fclose(f);
+		return 0;
+	}
+}
 
 TAB *Cria(int t){
   TAB* novo = (TAB*)malloc(sizeof(TAB));
+  
+  if(arvoreVazia())
+  	novo->id = 0;
+  else
+  	novo->id = getID();
   novo->nchaves = 0;
   novo->chave =(int*)malloc(sizeof(int*)*((t*2)-1));
   novo->folha=1;
-  novo->filho = (TAB**)malloc(sizeof(TAB*)*t*2);
+  novo->filho = (int*)malloc(sizeof(int)*t*2);
   int i;
-  for(i=0; i<(t*2); i++) novo->filho[i] = NULL;
+  for(i=0; i<(t*2); i++) novo->filho[i] = -1;
   return novo;
 }
 
 
 TAB *Libera(TAB *a){
   if(a){
-    if(!a->folha){
-      int i;
-      for(i = 0; i <= a->nchaves; i++) Libera(a->filho[i]);
-    }
     free(a->chave);
     free(a->filho);
     free(a);
@@ -34,16 +64,76 @@ TAB *Libera(TAB *a){
   }
 }
 
+void atualizaRaiz(int no){
+	FILE* f = fopen("data/raiz.id", "w");
+	if(!f) exit(1);
+	else
+		fprintf(f, "%d", no);
+	fclose(f);
+}
+
+int getRaiz(void){
+	FILE* f = fopen("data/raiz.id", "r");
+	if(!f)
+		return 0;
+	else{
+		int id;
+		fscanf(f, "%d", &id);
+		fclose(f);
+		return id;
+	}
+}
+
+TAB* intToTAB(int id){ // getNo
+	FILE* f = fopen(getFileName(id), "r");
+	
+	TAB* a = (TAB*)malloc(sizeof(TAB));;
+	if(!f){
+		if(arvoreVazia()){
+			return Cria(t);
+		}
+		else{
+			printf("Nó %d não existe!\n", id);
+			exit(2);
+		}
+	}
+	else{
+		a->chave =(int*)malloc(sizeof(int*)*((t*2)-1));
+		a->filho = (int*)malloc(sizeof(int)*t*2);
+		fread(a, sizeof(int), 3, f);
+		fread(&a->chave, sizeof(int), t*2-1, f);
+		fread(&a->filho, sizeof(int), t*2, f);
+	}
+	
+	if(f) fclose(f);
+	return a;
+}
+
+void save(TAB* no){ // getNo
+	FILE* f = fopen(getFileName(no->id), "w");
+	
+	if(!f){
+		exit(1);
+	}
+	else{
+		fwrite(no, sizeof(int), 3, f);
+		fwrite(&no->chave, sizeof(int), t*2-1, f);
+		fwrite(&no->filho, sizeof(int), t*2, f);
+		fclose(f);
+		Libera(no);
+	}	
+}
+
 
 void Imprime(TAB *a, int andar){
   if(a){
     int i,j;
     for(i=0; i<=a->nchaves-1; i++){
-      Imprime(a->filho[i],andar+1);
+      Imprime(intToTAB(a->filho[i]),andar+1);
       for(j=0; j<=andar; j++) printf("   ");
       printf("%d\n", a->chave[i]);
     }
-    Imprime(a->filho[i],andar+1);
+    Imprime(intToTAB(a->filho[i]),andar+1);
   }
 }
 
@@ -54,8 +144,13 @@ TAB *Busca(TAB* x, int ch){
   int i = 0;
   while(i < x->nchaves && ch > x->chave[i]) i++;
   if(i < x->nchaves && ch == x->chave[i]) return x;
-  if(x->folha) return resp;
-  return Busca(x->filho[i], ch);
+  if(x->folha){
+	  save(x);
+  	return resp;
+	}
+  
+  save(x);
+  return Busca(intToTAB(x->filho[i]), ch);
 }
 
 
@@ -73,12 +168,12 @@ TAB *Divisao(TAB *x, int i, TAB* y, int t){
   if(!y->folha){
     for(j=0;j<t;j++){
       z->filho[j] = y->filho[j+t];
-      y->filho[j+t] = NULL;
+      //y->filho[j+t] = NULL;
     }
   }
   y->nchaves = t-1;
   for(j=x->nchaves; j>=i; j--) x->filho[j+1]=x->filho[j];
-  x->filho[i] = z;
+  x->filho[i] = z->id;
   for(j=x->nchaves; j>=i; j--) x->chave[j] = x->chave[j-1];
   x->chave[i-1] = y->chave[t-1];
   x->nchaves++;
@@ -99,11 +194,14 @@ TAB *Insere_Nao_Completo(TAB *x, int k, int t){
   }
   while((i>=0) && (k<x->chave[i])) i--;
   i++;
-  if(x->filho[i]->nchaves == ((2*t)-1)){
-    x = Divisao(x, (i+1), x->filho[i], t);
+  TAB* a = intToTAB(x->filho[i]);
+  if(a->nchaves == ((2*t)-1)){
+    x = Divisao(x, (i+1), a, t);
     if(k>x->chave[i]) i++;
   }
-  x->filho[i] = Insere_Nao_Completo(x->filho[i], k, t);
+  a = Insere_Nao_Completo(intToTAB(x->filho[i]), k, t);
+  x->filho[i] = a->id;
+  save(a);
   return x;
 }
 
@@ -120,7 +218,7 @@ TAB *Insere(TAB *T, int k, int t){
     TAB *S = Cria(t);
     S->nchaves=0;
     S->folha = 0;
-    S->filho[0] = T;
+    S->filho[0] = T->id;
     S = Divisao(S,1,T,t);
     S = Insere_Nao_Completo(S,k,t);
     return S;

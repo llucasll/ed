@@ -163,8 +163,9 @@ No getNoByID(int id){
 	if(refs) fclose(refs);
 	return n;
 }
-void getFileName(int id, char* no, char* filhos){
+char* getFileName(int id){
 	char s[100], aux[100];
+	char* no = (char*) malloc(sizeof(char)*100);	
 	
 	// Créditos a Eduardo Canellas
 	sprintf(s, "%d", id);
@@ -172,14 +173,10 @@ void getFileName(int id, char* no, char* filhos){
 	for(int i=0; i<tam-1; i++) s[i] = '_';
 	sprintf(s+tam-1, "%d", id);
 	
-	if(no){
-		sprintf(aux, "data/%s.node", s);
-		strcpy(no,aux);
-	}
-	if(filhos){
-		sprintf(aux, "data/%s.refs", s);
-		strcpy(filhos,aux);
-	}
+	sprintf(aux, "data/%s.node", s);
+	
+	return aux;
+	
 }
 int getPaiID(int filho){
 	
