@@ -1,9 +1,9 @@
 #include "ab/ab.h"
 
-void add(Filme f, int t){
+No add(Filme f, int t){
 
 }
-void rm(No no, char* titulo, int ano, int t){
+No rm(No no, char* titulo, int ano, int t){
 
 }
 Filme search(No no, char* titulo, int ano){

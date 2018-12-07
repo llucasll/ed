@@ -1,9 +1,18 @@
+testeFuncionalidades:
+	@echo
+	gcc application/*.c lib/*.c lib.c/filme/*.c -o ~/a
+	@echo
+	~/a
+	@echo
+	rm ~/a
+	@echo
+
 make:
 	@echo
 	@echo > data/a
 	rm data/*
 	@echo
-	gcc application/*.c lib/.c lib.c/filme/*.c lib.c/ab/*.c -o ~/a
+	gcc application/*.c lib/lib.c lib/filme/*.c lib/ab/*.c -o ~/a
 	@echo
 	~/a
 	@echo
@@ -25,3 +34,9 @@ testeGestorID:
 	~/a
 	@echo
 	rm ~/a
+	
+clean:
+	rm *.o *.out
+
+clear:
+	rm *.o *.out
