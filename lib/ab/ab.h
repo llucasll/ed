@@ -1,5 +1,5 @@
-#include "libFilme/abPersistencia.h"
-#include "libFilme/listaFilmes.h"
+#include "persistencia.h"
+#include "../filme/listaFilmes.h"
 
 No add(Filme f, int t);
 No rm(No no, char* titulo, int ano, int t);

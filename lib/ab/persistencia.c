@@ -1,4 +1,6 @@
-#include "abPersistencia.h"
+#include "persistencia.h"
+
+#include "persistenciaAux.h"
 
 /*
 void init(int t){
@@ -22,12 +24,6 @@ n.filmes = (Filme*) NULL;
 */
 
 No vazio = {0, true, 0, NULL};
-
-//Apenas nesse arquivo
-void getFileName(int id, char* no, char* filhos);
-No getNoByID(int id);
-int getPaiID(int filho);
-void setPaiID(int filho, int pai);
 
 No getRaiz(void){
 	FILE* f = fopen("data/raiz.id", "r");
@@ -133,9 +129,6 @@ void apagaNo(No no){ // DESALOCA FILMES!
 	if(dados) fclose(dados);
 	if(refs) fclose(refs);
 }
-Filme* alocaFilmes(void){
-	return (Filme*) malloc(sizeof(Filme) * (2*t-1));
-}
 
 No getNoByID(int id){
 	char d[50], r[50];
@@ -164,13 +157,23 @@ No getNoByID(int id){
 	if(refs) fclose(refs);
 	return n;
 }
+
+/*
+ids.bin
+raiz.id
+0.node
+0.refs
+1.node
+1.refs
+*/
+
 void getFileName(int id, char* no, char* filhos){
 	char s[100], aux[100];
 	
 	// Créditos a Eduardo Canellas
 	sprintf(s, "%d", id);
 	int tam = strlen(s);
-	for(int i=0; i<tam-1; i++) s[i] = '_';
+	for(int i=0; i<tam-1; i++) s[i] = '~';
 	sprintf(s+tam-1, "%d", id);
 	
 	if(no){

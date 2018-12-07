@@ -1,7 +1,7 @@
 #ifndef FILMES_DECLARADOS
 	#define FILMES_DECLARADOS
 
-	#include "lib.h"
+	#include "../lib.h"
 
 	typedef struct{
 		//chave primária composta

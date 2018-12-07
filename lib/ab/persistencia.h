@@ -1,5 +1,4 @@
-#include "filme.h"
-#include "gestorIDs.h"
+#include "../filme/filme.h"
 
 typedef struct{
 	int id;
