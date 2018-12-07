@@ -99,6 +99,7 @@ void updateFilhos(No* filhos, No pai){ //salva pai.tam+1 filhos no modo w+, e de
 		for(int i=0; i<=pai.tam; i++){
 			fwrite(&filhos[i].id, sizeof(int), 1, refs);	
 			setPaiID(filhos[i].id, pai.id);
+			//if(filho[i].id != -1)
 			//save(filhos[i]); // TODO salvar também?
 		}
 		fclose(refs);

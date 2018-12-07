@@ -1,5 +1,8 @@
 #include "filme.h"
 
+Filme filmeInvalido = {"", 0, "", "", 0};
+
+// Diz se eh esse o filme
 bool checaFilme(Filme f, char* titulo, int ano){
 	return ((!strcmp(f.titulo, titulo) && f.ano == ano));
 }

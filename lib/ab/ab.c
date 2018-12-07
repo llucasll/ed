@@ -1,287 +1,123 @@
-#include "ab.h"
+#include "persistencia.h"
+#include "persistenciaAux.h"
 
-Filme filmeInvalido = {"", 0, "", "", 0};
+No maiorFolha(No* raiz){
+	No maiorNo(No* raiz){
+		if(raiz.ehFolha)
+			return raiz;
+		else{
+			free(raiz.filmes);
+			return maiorNo(getFilho(raiz, raiz.tam));
+		}
+	}
 
-No add(Filme f, int t){
-    No divisao(No no1, int i, No no2){
-        No no3 = criaNo();
-        no3.tam = t-1;
-        no3.ehFolha = no2.ehFolha;
-        int j;
-        for(j=0; j<t-1; j++) no3.filmes[j] = no2.filmes[j+t];
-        if(!no2.ehFolha){
-            No* filhos_no2 = getFilhos(no2);
-            No* filhos_no3 = getFilhos(no3);
-            for(j=0; j<t; j++){
-                filhos_no3[j] = filhos_no2[j+t];
-                free(filhos_no2[j+t].filmes);
-                filhos_no2[j+t].filmes = (Filme*) NULL;
-            }
-            updateFilhos(filhos_no2, no2);
-            updateFilhos(filhos_no3, no3);
-        }
-        no2.tam = t-1;
-        No* filhos_no1 = getFilhos(no1);
-        for(j=no1.tam; j>=i; j--) filhos_no1[j+1] = filhos_no1[j];
-        filhos_no1[i] = no3;
-        //oin(filhos_no1[0].id)
-        //oin(filhos_no1[1].id)
-        //oin(no1.id)
-        updateFilhos(filhos_no1, no1);
-        for(j=no1.tam; j>=i; j--) no1.filmes[j+1]=no1.filmes[j];
-        no1 = reload(no1);
-        no1.filmes[i-1] = no2.filmes[t-1];
-        no1.tam++;
-        save(no1);
-        return no1;
-    }
-    No insere_incompleto(No no, Filme f){
-        int i = no.tam-1;
-        if(no.ehFolha){
-            while((i>=0) && (ehMenor(f, no.filmes[i]))){
-                no.filmes[i+1] = no.filmes[i];
-                i--;
-            }
-            no.filmes[i+1] = f;
-            no.tam++;
-            save(no);
-            return no;
-        }
-        while((i>=0) && (ehMenor(f, no.filmes[i]))) i--;
-        i++;
-        if(getFilho(no, i).tam == ((2*t)-1)) {
-            no = divisao(no, i+1, getFilho(no, i));
-            if(ehMenor(no.filmes[i], f)) i++;
-        }
-        No* filhos = getFilhos(no);
-        filhos[i] = insere_incompleto(getFilho(no, i), f);
-        updateFilhos(filhos, no);
-        save(no);
-        return no;
-    }
-    No no = getRaiz();
-    //printf("%s (%d) \n-> no.tam %d\n\n", f.titulo, f.ano, no.tam); // tamanho do n� n�o � devidamente atualizado
-    if(search(no, f.titulo, f.ano).ano) return no;
-    if(no.tam == 0){ // cai nesse caso em todas as vezes
-        //no = criaNo();
-        no.filmes[0] = f;
-        //imprimeFilme(f); // imprime v�rios filmes, sem pular nenhum.
-        no.tam = 1;
-        save(no);
-        //oin(1);
-        return no;
-    }
-    if(no.tam == (2*t)-1){
-        //oin(3);
-        No no_s = criaNo();
-        //oin(no_s.id)
-        no_s.tam = 0;
-        no_s.ehFolha = true;
-        No* filhos = getFilhos(no_s);
-        no_s.ehFolha = false;
-        save(no_s);
-        filhos[0] = no;
-        updateFilhos(filhos, no_s);
-        no_s = divisao(no_s,1,no);
-        no_s = insere_incompleto(no_s,f);
-        //save(no_s);
-        return no_s;
-    }
-    //oin(2);
-    no = insere_incompleto(no,f);
-    save(no);
-    return no;
+	return raiz.ehFolha? raiz : maiorNo(getFilho(raiz, raiz.tam));
 }
 
-No rm(No no, char* titulo, int ano, int t){
-    if(!no.filmes) return no;
-    printf("Removendo %s (%d)\n",titulo,ano);
-    int i;
-    Filme ref;
-    strcpy(ref.titulo, titulo);
-    ref.ano = ano;
-    for(i=0;i<no.tam && ehMenor(no.filmes[i], ref); i++);
-    if(i < no.tam && comparaFilmes(no.filmes[i], ref)){ //CASOS 1, 2A, 2B e 2C
-        if(no.ehFolha){
-            printf("\nCaso 1\n");
-            int j;
-            for(j=i; j < no.tam-1; j++)
-                no.filmes[j] = no.filmes[j+1];
-            no.tam--;
-            save(no);
-            return no;
-        }
-        No* no_filhos = getFilhos(no);
-        if(!no.ehFolha && no_filhos[i].tam >= t){
-            printf("\nCaso 2A\n");
-            No no2 = no_filhos[i];
-            while(!no2.ehFolha) no2 = getFilho(no2, no2.tam); // talvez eu tenha que dar save()
-            Filme ftemp = no2.filmes[no2.tam-1];
-            no_filhos[i] = rm(no_filhos[i], titulo, ano, t);
-            updateFilhos(no_filhos, no);
-            no.filmes[i] = ftemp;
-            save(no);
-            return no;
-        }
-        if(!no.ehFolha && no_filhos[i+1].tam >= t){
-            printf("\nCaso 2B\n");
-            No no2 = no_filhos[i+1];
-            while(!no2.ehFolha) no2 = getFilho(no2, 0); // talvez eu tenha que dar save()
-            Filme ftemp = no2.filmes[0];
-            no2 = rm(no_filhos[i+1], titulo, ano, t);
-            updateFilhos(no_filhos, no);
-            no.filmes[i] = ftemp;
-            save(no);
-            return no;
-        }
-        if(!no.ehFolha && no_filhos[i+1].tam == t-1 && no_filhos[i].tam == t-1){
-            printf("\nCaso 2C\n");
-            No no2 = no_filhos[i];
-            No no3 = no_filhos[i+1];
-            no2.filmes[no2.tam] = ref;
-            int j;
-            for(j=0; j<t-1; j++)
-                no2.filmes[t+j] = no3.filmes[j];
-            No* no2_filhos = getFilhos(no2);
-            No* no3_filhos = getFilhos(no3);
-            for(j=0; j<=t; j++)
-                no2_filhos[t+j] = no3_filhos[j];
-            updateFilhos(no2_filhos, no2);
-            updateFilhos(no3_filhos, no3);
-            no2.tam = 2*t-1;
-            for(j=i; j < no.tam-1; j++)
-                no.filmes[j] = no.filmes[j+1];
-            for(j=i+1; j<= no.tam; j++)
-                no_filhos[j] = no_filhos[j+1];
-            free(no_filhos[j].filmes);
-            no_filhos[j].filmes = NULL;
-            no.tam--;
-            no_filhos[i] = rm(no_filhos[i], titulo, ano, t);
-            updateFilhos(no_filhos, no);
-            save(no);
-            return no;
-        }
-    }
-    No* no_filhos = getFilhos(no);
-    No no2 = no_filhos[i];
-    No no3;
-    no3.filmes = NULL;
-    if(no2.tam == t-1){ // Casos 3A e 3B
-        if((i < no.tam) && (no_filhos[i+1].tam >= t)){
-            printf("\nCaso 3A\n");
-            no3 = no_filhos[i+1];
-            no2.filmes[t-1] = no.filmes[i];
-            no2.tam++;
-            no.filmes[i] = no3.filmes[0];
-            int j;
-            for(j=0; j < no3.tam-1; j++)
-                no3.filmes[j] = no3.filmes[j+1];
-            No* no2_filhos = getFilhos(no2);
-            No* no3_filhos = getFilhos(no3);
-            no2_filhos[no2.tam] = no3_filhos[0];
-            for(j=0; j < no3.tam; j++)
-                no3_filhos[j] = no3_filhos[j+1];
-            updateFilhos(no2_filhos, no2);
-            updateFilhos(no3_filhos, no3);
-            no3.tam--;
-            save(no2);
-            save(no3);
-            no_filhos[i] = rm(no_filhos[i], titulo, ano, t);
-            updateFilhos(no_filhos, no);
-            save(no);
-            return no;
-        }
-        if((i>0) && (!no3.filmes) && no_filhos[i-1].tam >= t){
-            printf("\nCaso 3A\n");
-            no3 = no_filhos[i-1];
-            int j;
-            for(j = no2.tam; j>0; j--)
-                no2.filmes[j] = no2.filmes[j-1];
-            No* no2_filhos = getFilhos(no2);
-            for(j = no2.tam+1; j>0; j--)
-                no2_filhos[j] = no2_filhos[j-1];
-            no2.filmes[0] = no.filmes[i-1];
-            no2.tam++;
-            no.filmes[i-1] = no3.filmes[no3.tam-1];
-            No* no3_filhos = getFilhos(no3);
-            no2_filhos[0] = no3_filhos[no3.tam];
-            updateFilhos(no2_filhos, no2);
-            updateFilhos(no3_filhos, no3);
-            no3.tam--;
-            save(no2);
-            save(no3);
-            no_filhos[i] = rm(no2, titulo, ano, t);
-            save(no);
-            return no;
-        }
-        if(!no3.filmes){
-            if(i < no.tam && no_filhos[i+1].tam == t-1){
-                printf("\nCaso 3B\n");
-                no3 = no_filhos[i+1];
-                no2.filmes[t-1] = no.filmes[i];
-                no2.tam++;
-                int j;
-                for(j=0; j<t-1; j++){
-                    no2.filmes[t+j] = no3.filmes[j];
-                    no2.tam++;
-                }
-                if(!no2.ehFolha){
-                    No* no2_filhos = getFilhos(no2);
-                    No* no3_filhos = getFilhos(no3);
-                    for(j=0; j<t; j++)
-                        no2_filhos[t+j] = no3_filhos[j];
-                    updateFilhos(no2_filhos, no2);
-                    updateFilhos(no3_filhos, no3);
-                }
-                for(j=i; j < no.tam-1; j++){
-                    no.filmes[j] = no.filmes[j+1];
-                    no_filhos[j+1] = no_filhos[j+2];
-                }
-                updateFilhos(no_filhos, no);
-                no.tam--;
-                save(no2);
-                save(no3);
-                no = rm(no, titulo, ano, t);
-                save(no);
-                return no;
-            }
-            if((i>0) && (no_filhos[i-1].tam == t-1)){
-                printf("\nCaso 3B\n");
-                no3 = no_filhos[i-1];
-                if(i == no.tam)
-                    no3.filmes[t-1] = no.filmes[i-1];
-                else
-                    no3.filmes[t-1] = no.filmes[i];
-                no3.tam++;
-                int j;
-                for(j=0; j<t-1; j++){
-                    no3.filmes[t+1] = no2.filmes[j];
-                    no3.tam++;
-                }
-                if(!no3.ehFolha){
-                    No* no2_filhos = getFilhos(no2);
-                    No* no3_filhos = getFilhos(no3);
-                    for(j=0; j<t; j++)
-                        no3_filhos[t+j] = no2_filhos[j];
-                    updateFilhos(no2_filhos, no2);
-                    updateFilhos(no3_filhos, no3);
-                }
-                no.tam--;
-                no_filhos[i-1] = no3;
-                updateFilhos(no_filhos, no);
-                save(no2);
-                save(no3);
-                no = rm(no, titulo, ano, t);
-                save(no);
-                return no;
-            }
-        }
-    }
-    no_filhos[i] = rm(no_filhos[i], titulo, ano, t);
-    updateFilhos(no_filhos, no);
-    save(no);
-    return no;
+No menorFolha(No* raiz){
+	No menorNo(No* raiz){
+		if(raiz.ehFolha)
+			return raiz;
+		else{
+			free(raiz.filmes);
+			return menorNo(getFilho(raiz, 0));
+		}
+	}
+	
+	return raiz.ehFolha? raiz : menorNo(getFilho(raiz, 0));
 }
+
+// Informa se o filme existia no No
+bool removerFilme(No n, char* titulo, int ano){
+	if(n.tam <= t-1){
+		printf("Erro! Não é possível remover o filme %s do Nó %d pois ele já está com apenas %d Filmes!\n", f.titulo, n.id, t-1);
+		return false;
+	}
+	
+	for(int i=0; i<n.tam; i++)
+		if(checaFilme(n.filmes[i], titulo, ano)){// eh o mesmo filme
+			for(int j=i+1; j<n.tam; j++)
+				n.filmes[i] = n.filmes[j];
+			n.tam--;
+			return true;
+		}
+	return false;
+}
+
+int addFilme(No n, Filme f){
+	if(n.tam >= 2*t-1){
+		printf("Erro! Não é possível add o filme %s no Nó %d pois ele já está cheio!\n", f.titulo, n.id);
+		return -1;
+	}
+	
+	int i;
+	for(i=0; i<n.tam; i++)
+		if(ehMenor(f, n.filmes[i])){// eh o mesmo filme
+			if(!n.ehFolha)
+				No* filhos = getFilhos(n);
+			for(int j=n.tam-1; j>=i; j--){
+				n.filmes[j+1] = n.filmes[j];
+				if(!n.ehFolha)
+					filhos[j+2] = filhos[j+1];
+			}
+			if(!n.ehFolha){
+				filhos[i+1] = vazio;
+				filhos[i+1].id = -1;
+				updateFilhos(n, filhos);
+			}
+			n.filmes[i] = f;
+			n.tam++;
+			break;
+		}
+	
+	// Se for maior do que todos os outros
+	n.filmes[n.tam] = f;
+	n.tam++;
+	
+	return i;
+}
+
+// Ainda é preciso chamar a save() para o pai e para o filho, para concluir a operação.
+void divisao(No pai, No filho, int pos){ // pos = posição do filho dentro do pai
+	
+	// Subir Filme do meio para o pai
+	addFilme(pai, filho.filmes[filho.tam/2]);
+	
+	// Preparar para criar o novo nó
+	No* irmaos = getFilhos(pai);
+	
+	// Criar novo nó
+	#define novo irmaos[pos+1]
+	novo = criaNo();
+	for(int i=filho.tam/2+1; i<filho.tam; i++)
+		novo.filmes[i-filho.tam/2+1] = filho.filmes[i];
+	novo.tam = filho.tam-(filho.tam/2+1);
+	novo.ehFolha = filho.ehFolha;
+	save(novo);
+	
+	// Atualizar descendências
+	if(!ehFilho.folha){
+		No* primFilhos = getFilhos(filho); // Vetor com os filhos que vao manter a referencia
+		No* ultFilhos = getFilhos(filho); // Vetor com os filhos que vao passar para o nó criado
+		
+		for(int i=filho.tam/2+1; i<=filho.tam; i++)
+			ultFilhos[i-filho.tam/2+1] = primFilhos[i];
+		
+		// Já defini o tam lá em cima
+		//novo.tam = filho.tam -filho.tam/2 -1;
+		//save(novo)
+		updateFilhos(novo, ultFilhos);
+		
+		filho.tam = filho.tam/2 -1;
+		//save(filho);
+		updateFilhos(filho, primFilhos);
+	}
+	#undef novo
+	
+	// Atualizar o pai com o novo filho
+	updateFilhos(pai, irmaos);
+}
+
 
 Filme search(No no, char* titulo, int ano){
 	if(!no.filmes) return filmeInvalido;
@@ -324,23 +160,3 @@ void update(char* titulo, int ano, char* diretor, char* genero, int duracao){
         }
     }
 }
-
-/*
-const int t = 2;
-
-typedef struct ArvB{
-  int nchaves, folha, *chave;
-  struct ArvB **filho;
-}TAB;
-
-TAB *Cria(int t);
-TAB *Libera(TAB *a);
-void Imprime(TAB *a, int andar);
-TAB *Busca(TAB* x, int ch);
-TAB *Divisao(TAB *x, int i, TAB* y, int t);
-TAB *Insere_Nao_Completo(TAB *x, int k, int t);
-TAB *Insere(TAB *T, int k, int t);
-TAB* remover(TAB* arv, int ch, int t);
-TAB* retira(TAB* arv, int k, int t);
-int testar(int argc, char *argv[]);
-*/

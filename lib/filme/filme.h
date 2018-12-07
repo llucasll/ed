@@ -14,7 +14,9 @@
 		int duracao;
 	} Filme;
 
-	bool checaFilme(Filme f, char* titulo, int ano);
+	extern Filme filmeInvalido;
+
+	bool checaFilme(Filme f, char* titulo, int ano); // Diz se eh esse o filme
 	bool comparaFilmes(Filme a, Filme b); //true se são iguais
 	bool ehMenor(Filme a, Filme b); //a < b
 	void imprimeFilme(Filme f);
