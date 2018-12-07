@@ -1,12 +1,12 @@
 #include "ab/ab.h"
 
-No add(Filme f, int t){
+void add(Filme f){
 
 }
-No rm(No no, char* titulo, int ano, int t){
+void rm(char* titulo, int ano){
 
 }
-Filme search(No no, char* titulo, int ano){
+Filme search(char* titulo, int ano){
 	Filme f = {"titulo", 1997, "diretor", "generos", 0};
 	return f;
 }

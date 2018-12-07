@@ -19,6 +19,10 @@ make:
 	rm ~/a
 	@echo
 
+compilarTudo:
+	gcc -c *.c */*.c */*/*.c || make clean
+	make clean
+	
 wget:
 	wget http://www2.ic.uff.br/~rosseti/EDA/2018-2/filmes.txt
 

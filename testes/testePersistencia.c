@@ -47,7 +47,7 @@ void imprimirFilme(Filme f){
 			f.ano, f.diretor, f.genero, f.duracao);
 }
 
-No teste_getRaiz_save_(void){
+No teste_getRaiz_save(void){
 	No raiz = getRaiz();
 	//printf("%d, %d, %d, %d\n", raiz.id, raiz.ehFolha, raiz.tam, raiz.filmes);
 	
@@ -151,7 +151,7 @@ int main(void){
 	t = 2;
 	
 	/*
-	No raiz = teste_getFilhos_updateFilhos(teste_getRaiz_save_());
+	No raiz = teste_getFilhos_updateFilhos(teste_getRaiz_save());
 	
 	// getFilho
 	oin(getFilho(raiz, 2).filmes[1].ano);

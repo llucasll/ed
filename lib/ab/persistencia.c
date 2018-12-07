@@ -23,17 +23,17 @@ n.tam = 0;
 n.filmes = (Filme*) NULL;
 */
 
-No vazio = {0, true, 0, NULL};
+No vazio = {0, -1, true, 0, NULL};
 
 No getRaiz(void){
 	FILE* f = fopen("data/raiz.id", "r");
 	if(!f)
-		return getNoByID(0);
+		return getNoByID(0, -1);
 	else{
 		int id;
 		fscanf(f, "%d", &id);
 		fclose(f);
-		return getNoByID(id);
+		return getNoByID(id, -1);
 	}
 }
 void atualizaRaiz(No no){
@@ -55,13 +55,13 @@ No getFilho(No n, char pos){
 	fseek(refs, pos*sizeof(int), SEEK_SET);
 	int id;
 	fread(&id, sizeof(int), 1, refs);
-	return getNoByID(id);
+	return getNoByID(id, n.id);
 }
 No getPai(No n){
 	if(n.id == 0)
 		return vazio;
 	
-	return getNoByID(getPaiID(n.id)); // Créditos Eduardo Canellas
+	return getNoByID(n.pai, -1); // Créditos Eduardo Canellas
 }
 void save(No n){
 	char d[50], r[50];
@@ -82,13 +82,14 @@ void save(No n){
 	free(n.filmes);
 }
 No reload(No n){
-	return getNoByID(n.id);
+	return getNoByID(n.id, n.pai);
 }
 
 No* getFilhos(No no){ //aloca 2t-1 id's de filho
 	No* resp = (No*) malloc(sizeof(No)*(2*t-1));
-	for(int i=0; i<=no.tam; i++)
-		resp[i] = getFilho(no, i);
+	if(no.tam)
+		for(int i=0; i<=no.tam; i++)
+			resp[i] = getFilho(no, i);
 	return resp;
 }
 void updateFilhos(No* filhos, No pai){ //salva pai.tam+1 filhos no modo w+, e desaloca os filhos

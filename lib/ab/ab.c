@@ -1,8 +1,8 @@
 #include "persistencia.h"
 #include "persistenciaAux.h"
 
-No maiorFolha(No* raiz){
-	No maiorNo(No* raiz){
+No maiorFolha(No raiz){
+	No maiorNo(No raiz){
 		if(raiz.ehFolha)
 			return raiz;
 		else{
@@ -14,8 +14,8 @@ No maiorFolha(No* raiz){
 	return raiz.ehFolha? raiz : maiorNo(getFilho(raiz, raiz.tam));
 }
 
-No menorFolha(No* raiz){
-	No menorNo(No* raiz){
+No menorFolha(No raiz){
+	No menorNo(No raiz){
 		if(raiz.ehFolha)
 			return raiz;
 		else{
@@ -30,7 +30,7 @@ No menorFolha(No* raiz){
 // Informa se o filme existia no No
 bool removerFilme(No n, char* titulo, int ano){
 	if(n.tam <= t-1){
-		printf("Erro! Não é possível remover o filme %s do Nó %d pois ele já está com apenas %d Filmes!\n", f.titulo, n.id, t-1);
+		printf("Erro! Não é possível remover o filme %s do Nó %d pois ele já está com apenas %d Filmes!\n", titulo, n.id, t-1);
 		return false;
 	}
 	
@@ -44,7 +44,9 @@ bool removerFilme(No n, char* titulo, int ano){
 	return false;
 }
 
-int addFilme(No n, Filme f){
+int addFilme(No* ref, Filme f){
+	No n = *ref;
+	
 	if(n.tam >= 2*t-1){
 		printf("Erro! Não é possível add o filme %s no Nó %d pois ele já está cheio!\n", f.titulo, n.id);
 		return -1;
@@ -53,8 +55,9 @@ int addFilme(No n, Filme f){
 	int i;
 	for(i=0; i<n.tam; i++)
 		if(ehMenor(f, n.filmes[i])){// eh o mesmo filme
+			No* filhos;
 			if(!n.ehFolha)
-				No* filhos = getFilhos(n);
+				filhos = getFilhos(n);
 			for(int j=n.tam-1; j>=i; j--){
 				n.filmes[j+1] = n.filmes[j];
 				if(!n.ehFolha)
@@ -63,7 +66,7 @@ int addFilme(No n, Filme f){
 			if(!n.ehFolha){
 				filhos[i+1] = vazio;
 				filhos[i+1].id = -1;
-				updateFilhos(n, filhos);
+				updateFilhos(filhos, n);
 			}
 			n.filmes[i] = f;
 			n.tam++;
@@ -74,17 +77,24 @@ int addFilme(No n, Filme f){
 	n.filmes[n.tam] = f;
 	n.tam++;
 	
+	*ref = n;
+	
 	return i;
 }
 
 // Ainda é preciso chamar a save() para o pai e para o filho, para concluir a operação.
-void divisao(No pai, No filho, int pos){ // pos = posição do filho dentro do pai
-	
-	// Subir Filme do meio para o pai
-	addFilme(pai, filho.filmes[filho.tam/2]);
+void divisao(No* paiRef, No* filhoRef, int pos){ // pos = posição do filho dentro do pai
+	No pai = *paiRef;
+	No filho = *filhoRef;
 	
 	// Preparar para criar o novo nó
 	No* irmaos = getFilhos(pai);
+	if(pai.tam == 0) // caso em que estamos dividindo a própria raíz
+		irmaos[0] = filho;
+	
+	// Subir Filme do meio para o pai
+	addFilme(&pai, filho.filmes[filho.tam/2]);
+	save(pai);
 	
 	// Criar novo nó
 	#define novo irmaos[pos+1]
@@ -96,7 +106,7 @@ void divisao(No pai, No filho, int pos){ // pos = posição do filho dentro do p
 	save(novo);
 	
 	// Atualizar descendências
-	if(!ehFilho.folha){
+	if(!filho.ehFolha){
 		No* primFilhos = getFilhos(filho); // Vetor com os filhos que vao manter a referencia
 		No* ultFilhos = getFilhos(filho); // Vetor com os filhos que vao passar para o nó criado
 		
@@ -106,16 +116,20 @@ void divisao(No pai, No filho, int pos){ // pos = posição do filho dentro do p
 		// Já defini o tam lá em cima
 		//novo.tam = filho.tam -filho.tam/2 -1;
 		//save(novo)
-		updateFilhos(novo, ultFilhos);
+		updateFilhos(ultFilhos, novo);
 		
 		filho.tam = filho.tam/2 -1;
-		//save(filho);
-		updateFilhos(filho, primFilhos);
+		save(filho);
+		updateFilhos(primFilhos, filho);
 	}
 	#undef novo
 	
 	// Atualizar o pai com o novo filho
-	updateFilhos(pai, irmaos);
+	updateFilhos(irmaos, pai);
+	
+	// Atualizar na função que chamou
+	*paiRef = getNoByID(pai.id, pai.pai);
+	*filhoRef = getNoByID(filho.id, pai.id);
 }
 
 
@@ -131,6 +145,57 @@ Filme search(No no, char* titulo, int ano){
     if(no.ehFolha) return filmeInvalido;
     return search(getFilho(no, i), titulo, ano);
 }
+
+bool anterior(Filme a, char* titulo, int ano){ // Diz se o filme deve ficar antes dessa chave
+	if(a.ano!=ano) return a.ano<ano;
+	int t = strcmp(a.titulo, titulo);
+	if(!t || t==1) return false;
+	return true;
+}
+
+No filhoCandidato(No pai, char* titulo, int ano, int* pos){ // Retorna o filho onde a chave pode se encontrar
+	for(int i=0; i<pai.tam; i++)
+		if(!anterior(pai.filmes[i], titulo, ano)){
+			if(pos)
+				*pos = i;
+			return getFilho(pai, i);
+		}
+	*pos = pai.tam;
+	return getFilho(pai, pai.tam);
+}
+
+void add(Filme f){
+	No addInterno(Filme f, No no){
+		if(no.ehFolha){
+			addFilme(&no, f);
+			save(no);
+		}
+		else{
+			int pos;
+			No candidato = filhoCandidato(no, f.titulo, f.ano, &pos);
+			if(candidato.tam >= 2*t-1)
+				divisao(&no, &candidato, pos);
+			save(no);
+			addInterno(f, candidato);
+		}
+	}
+	
+	No raiz = getRaiz();
+	if(raiz.tam >= 2*t-1){
+		No novaRaiz = criaNo();
+		
+		novaRaiz.ehFolha = false;
+		divisao(&novaRaiz, &raiz, 0);
+		save(raiz);
+		
+		atualizaRaiz(novaRaiz);
+		raiz = novaRaiz;
+	}
+	
+	addInterno(f, raiz);
+	save(raiz);
+}
+void rm(char* titulo, int ano);
 
 void update(char* titulo, int ano, char* diretor, char* genero, int duracao){
     No no = getRaiz();

@@ -6,7 +6,7 @@ Filme* alocaFilmes(void){
 	return (Filme*) malloc(sizeof(Filme) * (2*t-1));
 }
 
-No getNoByID(int id){
+No getNoByID(int id, int pai){
 	char d[50], r[50];
 	getFileName(id, d, r);
 	FILE* dados = fopen(d, "r");
@@ -23,6 +23,7 @@ No getNoByID(int id){
 	}
 	else{
 		n.id = id;
+		n.pai = pai;
 		n.ehFolha = refs? !(fileSize(refs)/sizeof(int)) : true;
 		n.tam = fileSize(dados)/sizeof(Filme);
 		n.filmes = (Filme*) malloc(sizeof(Filme) * (2*t-1));
@@ -32,13 +33,6 @@ No getNoByID(int id){
 	if(dados) fclose(dados);
 	if(refs) fclose(refs);
 	return n;
-}
-
-int getPaiID(int filho){
-	
-}
-void setPaiID(int filho, int pai){
-	
 }
 
 void getFileName(int id, char* no, char* filhos){
