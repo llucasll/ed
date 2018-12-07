@@ -1,8 +1,9 @@
 make:
 	@echo
+	@echo > data/a
 	rm data/*
 	@echo
-	gcc ab.c catalogo.c funcionalidades.c libFilme/*.c -o ~/a
+	gcc application/*.c lib/.c lib.c/filme/*.c lib.c/ab/*.c -o ~/a
 	@echo
 	~/a
 	@echo
@@ -13,13 +14,14 @@ wget:
 	wget http://www2.ic.uff.br/~rosseti/EDA/2018-2/filmes.txt
 
 testePersistencia:
-	gcc libFilme/abPersistencia.c testes/testePersistencia.c libFilme/gestorIDs.c libFilme/lib.c -o ~/a;
+	gcc testes/testePersistencia.c lib/lib.c lib/filme/filme.c lib/ab/gestorIDs.c lib/ab/persistencia.c lib/ab/persistenciaAux.c -o ~/a
+	@echo
 	~/a
 	@echo
 	rm ~/a
 
 testeGestorID:
-	gcc libFilme/gestorIDs.c testes/testeIDsManagement.c libFilme/lib.c -o ~/a;
+	gcc lib/ab/gestorIDs.c testes/testeIDsManagement.c lib/lib.c -o ~/a;
 	~/a
 	@echo
 	rm ~/a

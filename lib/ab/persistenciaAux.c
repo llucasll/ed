@@ -1,6 +1,6 @@
-#include "persistenciaAux.h"
-
 #include "persistencia.h"
+
+#include "persistenciaAux.h"
 
 Filme* alocaFilmes(void){
 	return (Filme*) malloc(sizeof(Filme) * (2*t-1));

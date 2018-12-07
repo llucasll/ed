@@ -1,5 +1,5 @@
-#include "../libFilme/lib.h"
-#include "../libFilme/gestorIDs.h"
+#include "../lib/lib.h"
+#include "../lib/ab/gestorIDs.h"
 
 int main(void){
 	int op;

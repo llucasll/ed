@@ -1,5 +1,5 @@
-#include "../libFilme/lib.h"
-#include "../libFilme/abPersistencia.h"
+#include "../lib/lib.h"
+#include "../lib/ab/persistencia.h"
 
 void erro(int e){
 	switch(e){
@@ -42,7 +42,7 @@ Filme monta3(int i){
 	return monta(s, i, s, s, i);
 }
 
-void imprimeFilme(Filme f){
+void imprimirFilme(Filme f){
 	printf("%s (%d) - %s - %s - %d mins.\n", f.titulo,
 			f.ano, f.diretor, f.genero, f.duracao);
 }
@@ -57,8 +57,8 @@ No teste_getRaiz_save_(void){
 	//monta2(&raiz.filmes[1],"Dançando nas estrelas", 1945, "Drake Roman", "Romance", 4*60+50);
 	raiz.tam=2;
 	
-	imprimeFilme(raiz.filmes[0]);
-	imprimeFilme(raiz.filmes[1]);
+	imprimirFilme(raiz.filmes[0]);
+	imprimirFilme(raiz.filmes[1]);
 	//printf("%d, %d, %d, %d\n", raiz.id, raiz.ehFolha, raiz.tam, raiz.filmes);
 	save(raiz);
 	//printf("%d, %d, %d, %d\n", raiz.id, raiz.ehFolha, raiz.tam, raiz.filmes);
@@ -66,8 +66,8 @@ No teste_getRaiz_save_(void){
 	//printf("%d, %d, %d, %d\n", raiz.id, raiz.ehFolha, raiz.tam, raiz.filmes);
 	raiz = getRaiz();
 	
-	imprimeFilme(raiz.filmes[0]);
-	imprimeFilme(raiz.filmes[1]);
+	imprimirFilme(raiz.filmes[0]);
+	imprimirFilme(raiz.filmes[1]);
 	
 	return raiz;
 }
@@ -126,12 +126,12 @@ void exemploDeUso(void){
 	filhos[0].tam = 1;
 	filhos[1].filmes[0] = monta3(2);
 	filhos[1].tam = 1;
-	imprimeFilme(filhos[0].filmes[0]);
+	imprimirFilme(filhos[0].filmes[0]);
 	
 	//salvar os filhos antes, ou a updateFilhos salva?
 	updateFilhos(filhos, raiz);
 	
-	imprimeFilme(getFilho(raiz, 0).filmes[0]);
+	imprimirFilme(getFilho(raiz, 0).filmes[0]);
 	
 	/* ERRADO (exemplo de uso da getFilho)
 	printf("%s\n", getFilho(raiz, 0).filmes[0].titulo);
