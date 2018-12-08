@@ -23,6 +23,7 @@ int fileSize2(FILE* f){
 }
 
 int fileSize(FILE* f){
+	if(!f) return 0;
 	int tmp = ftell(f);
 	rewind(f);
 
@@ -75,4 +76,30 @@ FILE* abrir(char* nome){
 	*/
 
 	return f;
+}
+
+int getIntFromFile(char* file){
+	FILE* f = fopen(file, "r");
+	if(!f)
+		return -1;
+	else{
+		int i;
+		if(!fscanf(f, "%d", &i))
+			return -1;
+		fclose(f);
+		return i;
+	}
+}
+void putIntToFile(char* file, int i){
+	FILE* f = fopen(file, "w");
+	if(!f) erro(1);
+	else{
+		fprintf(f, "%d", i);
+		fclose(f);
+	}
+}
+
+void apagarArquivo(char* file){
+	FILE* f = fopen(file, "w");
+	if(f) fclose(f);
 }

@@ -1,7 +1,7 @@
 #include "../filme/filme.h"
 
 typedef struct{
-	int id, pai;
+	int id;
 	
 	bool ehFolha;
 	

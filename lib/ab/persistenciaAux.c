@@ -6,7 +6,12 @@ Filme* alocaFilmes(void){
 	return (Filme*) malloc(sizeof(Filme) * (2*t-1));
 }
 
-No getNoByID(int id, int pai){
+int getRaizID(void){
+	int id = getIntFromFile("data/raiz.id");
+	return id==-1? 0 : id;
+}
+
+No getNoByID(int id){
 	char d[50], r[50];
 	getFileName(id, d, r);
 	FILE* dados = fopen(d, "r");
@@ -14,7 +19,7 @@ No getNoByID(int id, int pai){
 	
 	No n;
 	if(!dados){
-		if(id == 0){
+		if(id == getRaizID()){
 			No raiz = vazio;
 			raiz.filmes = (Filme*) malloc(sizeof(Filme) * (2*t-1));
 			return raiz;
@@ -23,7 +28,7 @@ No getNoByID(int id, int pai){
 	}
 	else{
 		n.id = id;
-		n.pai = pai;
+		//n.pai = pai;
 		n.ehFolha = refs? !(fileSize(refs)/sizeof(int)) : true;
 		n.tam = fileSize(dados)/sizeof(Filme);
 		n.filmes = (Filme*) malloc(sizeof(Filme) * (2*t-1));
@@ -52,4 +57,11 @@ void getFileName(int id, char* no, char* filhos){
 		sprintf(aux, "data/%s.refs", s);
 		strcpy(filhos,aux);
 	}
+}
+
+int getPaiID(int filho){
+	
+}
+void setPaiID(int filho, int pai){
+	
 }

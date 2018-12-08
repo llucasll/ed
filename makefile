@@ -1,3 +1,14 @@
+testeAB:
+	@echo
+	@echo > data/a
+	rm data/*
+	@echo
+	gcc testes/testeAB.c lib/lib.c lib/filme/filme.c lib/ab/gestorIDs.c lib/ab/persistencia.c lib/ab/persistenciaAux.c lib/ab/ab.c -o ~/a
+	@echo
+	~/a # < testes/input1TesteAB.txt
+	@echo
+	rm ~/a
+
 testeFuncionalidades:
 	@echo
 	gcc application/*.c lib/*.c lib.c/filme/*.c -o ~/a
