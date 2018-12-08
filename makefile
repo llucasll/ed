@@ -1,6 +1,6 @@
 testeFuncionalidades:
 	@echo
-	gcc application/*.c lib/*.c lib.c/filme/*.c -o ~/a
+	gcc application/*.c lib/*.c lib/filme/*.c -o ~/a
 	@echo
 	~/a
 	@echo
