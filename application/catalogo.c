@@ -7,9 +7,59 @@ void inicializa(char *catalogo){
     FILE* fp = fopen(catalogo, "r");
     Filme f = getFilme(fp);
     while(f.ano){
-        atualizaRaiz(add(f, t));
+        add(f);
         f = getFilme(fp);
     }
+    if(fp) fclose(fp);
+}
+
+void buscaFilme(){
+    printf("Titulo: ");
+    char titulo[82];
+    fgets(titulo, 82, stdin);
+    printf("\nAno: ");
+    int ano;
+    scanf("%d", &ano);
+    //printf("%s (%d)", titulo, ano);
+    Filme f = search(titulo, ano);
+    if(!f.ano) printf("Filme nao encontrado.");
+    else imprimeFilme(f);
+}
+
+void alteraFilme(){
+    printf("Titulo: ");
+    char titulo[82];
+    fgets(titulo, 82, stdin);
+    printf("Ano: ");
+    int ano;
+    scanf("%d", &ano);
+    printf("Diretor: ");
+    char diretor[52];
+    fgets(diretor, 52, stdin);
+    printf("Genero: ");
+    char genero[32];
+    fgets(genero, 32, stdin);
+    printf("Duracao: ");
+    int duracao;
+    scanf("%d", &duracao);
+    //printf("%s - %d - %s - %s - %d", titulo, ano, diretor, genero, duracao);
+    update(titulo, ano, diretor, genero, duracao);
+}
+
+void listaDiretor(){
+    printf("Diretor: ");
+    char diretor[52];
+    fgets(diretor, 52, stdin);
+    //printf("Imprime do diretor \"%s\"", diretor);
+    imprime(directedsBy(diretor, getRaiz()));
+}
+
+void retiraGenero(){
+    printf("Genero: ");
+    char genero[32];
+    fgets(genero, 32, stdin);
+    //printf("Remove genero \"%s\"", genero);
+    removeGenre(getRaiz(), genero);
 }
 
 int main(){
@@ -21,15 +71,14 @@ int main(){
         printf("\nEscolha uma funcao: ");
         int n;
         scanf("%d", &n);
-        if((n<1||n>4)&&(n!=-1))
-            return 0;
+        if((n<1||n>4)&&(n!=-1)) return 0;
         return n;
     }
     int opt;
     char* catalogo;
 
     printf("Nome do arquivo: ");
-    scanf("%s", catalogo);
+    scanf("%s", &catalogo);
     printf("Fator T: ");
     scanf("%d", &t);
     //catalogo = (char*) malloc(sizeof(char) * 20);
@@ -47,43 +96,17 @@ int main(){
                 getc(stdin);
                 system("cls||clear");
                 break;
-            case 1: //Busca filme
-                printf("Titulo: ");
-                char titulo[82];
-                fgets(titulo, 82, stdin);
-                printf("Ano: ");
-                int ano;
-                scanf("%d", &ano);
-                Filme f = search(getRaiz(), titulo, ano);
-                if(!f.ano) printf("Filme nao encontrado.");
-                else imprimeFilme(f);
+            case 1:
+                buscaFilme();
                 break;
-            case 2: //Altera filme
-                printf("Titulo: ");
-                char titulo[82];
-                fgets(titulo, 82, stdin);
-                printf("Ano: ");
-                int ano;
-                scanf("%d", &ano);
-                char diretor[52];
-                fgets(diretor, 52, stdin);
-                char genero[32];
-                fgets(genero, 32, stdin);
-                int duracao;
-                scanf("%d", duracao);
-                update(titulo, ano, diretor, genero, duracao);
+            case 2:
+                alteraFilme();
                 break;
-            case 3: // Lista por diretor
-                printf("Diretor: ");
-                char diretor[52];
-                fgets(diretor, 52, stdin);
-                imprime(directedsBy(diretor, getRaiz()));
+            case 3:
+                listaDiretor();
                 break;
-            case 4: // Retira por gênero
-                printf("Genero: ");
-                char genero[32];
-                fgets(genero, 32, stdin);
-                removeGenre(getRaiz(), genero);
+            case 4:
+                retiraGenero();
                 break;
         }
     }while(opt!=-1);
