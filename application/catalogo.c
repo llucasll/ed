@@ -5,12 +5,18 @@
 
 void inicializa(char *catalogo){
     FILE* fp = fopen(catalogo, "r");
+    if(!fp){
+        printf("Arquivo nao pode ser aberto.\n");
+        exit(1);
+    }
     Filme f = getFilme(fp);
     while(f.ano){
+        imprimeFilme(f);
         add(f);
+        printf("\nAdicionado\n");
         f = getFilme(fp);
     }
-    if(fp) fclose(fp);
+    fclose(fp);
 }
 
 void buscaFilme(){
@@ -75,7 +81,7 @@ int main(){
         return n;
     }
     int opt;
-    char* catalogo;
+    char catalogo[100];
 
     printf("Nome do arquivo: ");
     scanf("%s", &catalogo);
@@ -84,7 +90,7 @@ int main(){
     //catalogo = (char*) malloc(sizeof(char) * 20);
     //sprintf(catalogo, "filmes.txt");
     //t = 2;
-
+    
     inicializa(catalogo);
     system("cls||clear");
     do{
