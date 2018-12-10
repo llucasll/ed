@@ -1,6 +1,7 @@
 # LUCAS
 *.swp
 data/*
+*~
 
 # Prerequisites
 *.d

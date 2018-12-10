@@ -3,6 +3,55 @@
 
 #include "funcionalidades.h"
 
+void printaFilme(Filme val, int nivel){
+	for(int i=0; i<nivel; i++)
+		printf("\t");
+	//if(menor)
+		//printf("\e[31m");
+	//else
+		printf("\e[32m");
+	//if(val)
+		printf("%d - %s\n", val.ano, val.titulo);
+	//else
+		//printf("*\n");
+	printf("\e[m");
+}
+
+void inspectNo(No no){
+	printf("ID: %d\n", no.id);
+	bool ehFolha = no.ehFolha;
+	no.ehFolha = true;
+	printaNo(no, 0);
+	no.ehFolha = ehFolha;
+}
+
+void printaNo(No raiz, int nivel){//Printa Arvore Interno
+	if(raiz.id == -1) return;
+	for(int i=0; i<raiz.tam; i++){
+		if(!raiz.ehFolha)
+			printaNo(getFilho(raiz, i), nivel+1);
+		printaFilme(raiz.filmes[i], nivel);
+	}
+	if(!raiz.ehFolha)
+		printaNo(getFilho(raiz, raiz.tam), nivel+1);
+	if(nivel)
+		free(raiz.filmes);
+}
+void printaArvore(void){
+	//printf("\ec\n");
+	
+	No raiz = getRaiz();
+	if(raiz.tam == 0){
+		printf("\nÁrvore vazia!\n");
+	}
+	else{
+		printf("\nÁrvore:\n");
+		printaNo(raiz, 0);
+		free(raiz.filmes);
+	}
+	printf("\n");
+}
+
 void inicializa(char *catalogo){
     FILE* fp = fopen(catalogo, "r");
     if(!fp){
@@ -11,9 +60,10 @@ void inicializa(char *catalogo){
     }
     Filme f = getFilme(fp);
     while(f.ano){
-        imprimeFilme(f);
+        printaArvore();
+        //imprimeFilme(f);
         add(f);
-        printf("\nAdicionado\n");
+        //printf("\nAdicionado\n");
         f = getFilme(fp);
     }
     fclose(fp);
@@ -70,6 +120,7 @@ void retiraGenero(){
 
 int main(){
     int menu(){
+        printf("\t0 - Encerrar\n");
         printf("\t1 - Busca filme\n");
         printf("\t2 - Altera filme\n");
         printf("\t3 - Lista filmes por diretor\n");
@@ -94,14 +145,10 @@ int main(){
     inicializa(catalogo);
     system("cls||clear");
     do{
+        printaArvore();
         printf("\nFuncoes:\n");
         opt = menu();
         switch(opt){
-            case 0:
-                printf("\nValor invalido.\nPressione qualquer tecla.");
-                getc(stdin);
-                system("cls||clear");
-                break;
             case 1:
                 buscaFilme();
                 break;
@@ -114,8 +161,13 @@ int main(){
             case 4:
                 retiraGenero();
                 break;
+            default:
+                printf("\nValor invalido.\nPressione qualquer tecla.");
+                getc(stdin);
+                system("cls||clear");
+                break;
         }
-    }while(opt!=-1);
+    }while(opt);
 }
 
 void erro(int e){
